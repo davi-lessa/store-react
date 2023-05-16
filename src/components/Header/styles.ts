@@ -70,10 +70,27 @@ export const AccountBtn = styled.button`
   display: flex;
   align-items: center;
   padding-top: 3px;
+  position: relative;
+
+  &:hover {
+    .username {
+      position: relative;
+      opacity: 1;
+      transform: scaleX(1);
+      width: max-content;
+    }
+  }
 `
 
 export const LeftSide = styled.div``
 export const RightSide = styled.div`
   display: flex;
   gap: 12px;
+
+  .username {
+    font-size: 1.25em;
+    margin-right: 7px;
+    font-weight: bold;
+    transition: all 0.25s ease;
+  }
 `

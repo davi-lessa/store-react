@@ -7,18 +7,19 @@ import { QueryClientProvider } from 'react-query'
 import queryClient from 'services/queryClient'
 import { Provider as ReduxProvider } from 'react-redux'
 import { store } from 'store'
-
 import 'assets/css/accordion.css'
+import { auth } from 'services/firebaseConfig'
+import { onAuthStateChanged } from 'firebase/auth'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Profiler onRender={() => null} id="profiler">
+    <Profiler onRender={() => null} id="profiler">
+      <QueryClientProvider client={queryClient}>
         <ReduxProvider store={store}>
           <GlobalStyle />
           <AppRouter />
         </ReduxProvider>
-      </Profiler>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </Profiler>
   </React.StrictMode>
 )
