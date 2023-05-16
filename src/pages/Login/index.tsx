@@ -28,6 +28,7 @@ const LoginPage: React.FC = () => {
         if (token && user) dispatch(authActions.setTokenUser({ token, user: JSON.stringify(user) }))
       })
       .catch((error) => {
+        dispatch(authActions.logout())
         const errorCode = error.code
         const errorMessage = error.message
         const email = error.customData.email
@@ -39,30 +40,18 @@ const LoginPage: React.FC = () => {
     if (!userMail) return
     sendSignInLinkToEmail(auth, userMail, actionCodeSettings)
       .then(() => {
-        window.localStorage.setItem('signMail', userMail)
-        console.log('logged')
+        window.localStorage.setItem('disposableMail', userMail)
       })
       .catch((error) => {
-        console.warn(error)
         const errorCode = error.code
         const errorMessage = error.message
       })
   }
 
   const actionCodeSettings = {
-    url: window.location.protocol + '//' + window.location.hostname + '/',
+    url: window.location.protocol + '//' + window.location.hostname + '/auth/mail-verify',
     handleCodeInApp: true,
-    // iOS: {
-    //   bundleId: 'com.example.ios',
-    // },
-    // android: {
-    //   packageName: 'com.example.android',
-    //   installApp: true,
-    //   minimumVersion: '12',
-    // },
   }
-
-  console.log(actionCodeSettings)
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ height: '100%', background: '#f2f3f5' }}>

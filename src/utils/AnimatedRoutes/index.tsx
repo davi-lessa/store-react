@@ -7,6 +7,7 @@ import Account from 'pages/Account'
 import ProductPage from 'pages/Product'
 import LoginPage from 'pages/Login'
 import PrivateRoutes from 'utils/PrivateRoutes'
+import MailVerify from 'pages/Login/MailVerify'
 
 const AnimatedRoutes: React.FC = () => {
   const location = useLocation()
@@ -23,6 +24,7 @@ const AnimatedRoutes: React.FC = () => {
         </Route>
       </Route>
 
+      <Route path="/auth/mail-verify" element={<MailVerify />}></Route>
       <Route path="*" element={<NotFound />}></Route>
     </Routes>
   )
