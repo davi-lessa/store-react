@@ -8,8 +8,6 @@ import queryClient from 'services/queryClient'
 import { Provider as ReduxProvider } from 'react-redux'
 import { store } from 'store'
 import 'assets/css/accordion.css'
-import { auth } from 'services/firebaseConfig'
-import { onAuthStateChanged } from 'firebase/auth'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

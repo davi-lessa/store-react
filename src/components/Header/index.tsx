@@ -45,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({ borderColor }: HeaderProps) => {
           <LeftSide>
             <Logo size={24}></Logo>
             <Link to={'/'}>
-              <h1>MINOX 247</h1>
+              <h1>MINOX 71</h1>
             </Link>
           </LeftSide>
 
