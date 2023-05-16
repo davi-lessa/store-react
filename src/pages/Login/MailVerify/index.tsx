@@ -18,6 +18,7 @@ const MailVerify: React.FC = () => {
         window.localStorage.removeItem('disposableMail')
         const user = result.user
         if (user) dispatch(authActions.setTokenUser({ token: '', user: JSON.stringify(user) }))
+        return <Navigate to={'/'} replace={true} />
         // Additional user info profile not available via:
         // result.additionalUserInfo.profile == null
         // You can check if the user is new or existing:
@@ -29,8 +30,7 @@ const MailVerify: React.FC = () => {
       })
   }
 
-  return <div></div>
-  // return <Navigate to={'/login'} replace={true} />
+  return <Navigate to={'/login'} replace={true} />
 }
 
 export default MailVerify

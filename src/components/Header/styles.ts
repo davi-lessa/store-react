@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   height: 75px;
-  width: 100vw;
+  width: 100%;
 
   background: var(--bg-color);
   font-family: 'Saira Condensed', 'Inter', 'Segoe UI', sans-serif;
