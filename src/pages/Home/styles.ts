@@ -100,8 +100,6 @@ export const Products = styled.div`
   }
 
   .cat-title {
-    text-transform: capitalize;
-
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -71,7 +71,7 @@ const Home: React.FC = () => {
         >
           <div className="featured-cat">
             <div className="cat-title">
-              <h2 className="title">{category.category}</h2>
+              <h2 className="title">{category?.products?.[0]?.categories?.data?.[0]?.name || category.category}</h2>
               <a className="see-all show-arrow" href="/categorias/utilidades-veiculos">
                 Ver todos
               </a>
