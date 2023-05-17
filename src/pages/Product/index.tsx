@@ -28,6 +28,7 @@ import { motion } from 'framer-motion'
 
 import { ExpectedAddPayload, actions as cartActions } from 'store/reducers/cart'
 import { useDispatch } from 'react-redux'
+import Accordion from 'components/Accordion'
 
 interface ProductAPIResponse {
   data: ProductItem[]
@@ -236,6 +237,35 @@ const ProductPage: React.FC = () => {
     })
   }
 
+  const generatePaymentConditions = (
+    value: number,
+    maxParcels: number = generalSettings.payment_parcels_max,
+    taxFreeParcelsCount: number = generalSettings.payment_parcels_no_tax_count
+  ) => {
+    //                //2x    3x    4x ...
+    const mlTaxes = [1.0764, 1.0923, 1.1086, 1.1231, 1.1365, 1.1472, 1.1623, 1.1769, 1.1865, 1.2012, 1.2161]
+    return (
+      <>
+        {Array.from({ length: maxParcels }, (_, i) => {
+          const isTaxFree = i < taxFreeParcelsCount ? true : false
+          const parcel = isTaxFree
+            ? (Math?.floor((value * 100) / (i + 1)) / 100)?.toFixed(2)?.replace('.', ',')
+            : (Math.round((Math.round(value * mlTaxes[i - 1] * 100) / 100 / (i + 1)) * 100) / 100).toFixed(2).replace('.', ',')
+
+          return (
+            <span className="parcel-wrapper" key={'parcel-condition-' + i}>
+              <span className="parcel-count">{i + 1}x</span> <span className="separator"></span>
+              <span className="parcel-price">
+                R$ {parcel}
+                {isTaxFree ? ' s/ juros' : ''}
+              </span>
+            </span>
+          )
+        })}
+      </>
+    )
+  }
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} key="product-handler">
       <ProductContainer>
@@ -367,30 +397,31 @@ const ProductPage: React.FC = () => {
                 <div className="sell-box-payment-conditions">
                   <p style={{ color: '#3483fa', marginBottom: '4px' }}>Pagamento seguro</p>
 
-                  <button className="dlv_accord parcelas-accord arrow-right" data-group="parcelas">
-                    <ul className="bandeiras">
-                      <li>
-                        <VisaIcon />
-                      </li>
-
-                      <li>
-                        <MasterIcon />
-                      </li>
-
-                      <li>
-                        <EloIcon />
-                      </li>
-
-                      <li>
-                        <AmexIcon />
-                      </li>
-                    </ul>
-                    <span>Ver parcelas</span>
-                  </button>
-
-                  <div className="dlv_acc_panel">
-                    <div className="panel_content parcelsgroup"></div>
-                  </div>
+                  <Accordion
+                    data={[
+                      [
+                        <>
+                          <ul className="bandeiras">
+                            <li>
+                              <VisaIcon />
+                            </li>
+                            <li>
+                              <MasterIcon />
+                            </li>
+                            <li>
+                              <EloIcon />
+                            </li>
+                            <li>
+                              <AmexIcon />
+                            </li>
+                          </ul>
+                          <span>Ver parcelas</span>
+                        </>,
+                        <div key={'accord-panel'}>{generatePaymentConditions(Number(currentSKU?.price_discount))}</div>,
+                        { groupName: 'parcelas', buttonClass: 'parcelas-accord', panelClass: 'parcelsgroup', arrowRight: true },
+                      ],
+                    ]}
+                  ></Accordion>
 
                   <button className="dlv_accord boleto-accord no-arrow" data-group="parcelas">
                     <span style={{ display: 'flex', alignItems: 'center' }}>

@@ -148,6 +148,9 @@ export const CartContainer = styled.div`
 
         .item-price {
           font-size: 1rem;
+          @media screen and (max-width: 922px) {
+            font-size: 1rem;
+          }
         }
 
         .item-old-price {

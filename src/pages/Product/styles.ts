@@ -432,6 +432,7 @@ export const Selling = styled.div`
         background-color: #3483fa;
         color: white;
         font-weight: bold;
+        font-size: 0.95em;
         min-height: 45px;
       }
 
@@ -456,6 +457,8 @@ export const Selling = styled.div`
         padding: 11px;
         gap: 10px;
         border-radius: 4px 4px 0 0;
+        width: 100%;
+        height: 100%;
       }
 
       .parcelas-accord {
@@ -479,15 +482,41 @@ export const Selling = styled.div`
         &.active {
           border-radius: 0 !important;
         }
-        .parcelsgroup {
+
+        &.parcelsgroup div {
           display: flex;
           flex-direction: column;
           flex-wrap: wrap;
-          gap: 3px 8px;
-          max-height: 10em;
+          font-size: 0.95em;
+          gap: 3px 25px;
+          max-height: 10.5em;
 
-          span {
-            font-size: 0.9em;
+          .parcel-wrapper {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            justify-items: center;
+            gap: 10px;
+            justify-content: space-between;
+
+            .parcel-count {
+              font-weight: bold;
+            }
+
+            .separator {
+              width: 100%;
+              position: relative;
+
+              &::after {
+                content: '';
+                width: 100%;
+                height: 0px;
+                border-top: 1px solid #d8d8d8;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%);
+              }
+            }
           }
         }
       }
@@ -538,13 +567,13 @@ export const Selling = styled.div`
         }
 
         button {
-          background: rgb(239, 239, 239);
+          background: #f8f8f8;
           border-radius: 6px;
-          font-weight: 500;
+          font-weight: 400;
           font-size: 15px;
           padding: 7px 10px;
           height: 100%;
-          color: #333;
+          color: #000;
           border: 1px solid #ddd;
         }
       }
