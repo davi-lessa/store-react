@@ -132,6 +132,7 @@ export const GlobalStyle = styled.createGlobalStyle`
     letter-spacing: -0.65px;
     color: var(--text-color);
     overflow-x: hidden;
+    overflow-y: scroll;
 
     &.locked {
       overflow-y: hidden;

@@ -96,6 +96,11 @@ const Cart: React.FC = () => {
     </div>
   )
 
+  const generateCheckoutURL = (data: typeof cartData) => {
+    if (!data?.items?.length) return null
+    return data.items.map((item) => item.purchase_url + ':' + item.qty).join(',')
+  }
+
   const calculations = doCalculations()
 
   function doCalculations() {

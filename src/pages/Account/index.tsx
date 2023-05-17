@@ -21,19 +21,10 @@ const Account: React.FC = () => {
 
   const componentMap = (key: string) => {
     const maps: { [key: string]: any } = {
-      pedidos: <Raffles></Raffles>,
+      pedidos: <Orders></Orders>,
       sorteios: <Raffles></Raffles>,
     }
     return maps?.[key] || <Orders></Orders>
-  }
-
-  function logout() {
-    try {
-      signOut(auth)
-      dispatch(authActions.logout())
-    } catch (error) {
-      console.warn('Error in logout')
-    }
   }
 
   return (

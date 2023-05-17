@@ -1,6 +1,6 @@
 import { BrowserRouter as Router } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
-import AnimatedRoutes from 'utils/AnimatedRoutes'
+import AnimatedRoutes from 'routes/AnimatedRoutes'
 
 export default function AppRouter() {
   return (

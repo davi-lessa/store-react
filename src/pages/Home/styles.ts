@@ -95,6 +95,10 @@ export const Products = styled.div`
     }
   }
 
+  .featured-cat {
+    min-height: 350px;
+  }
+
   .cat-title {
     text-transform: capitalize;
 
@@ -108,7 +112,7 @@ export const Products = styled.div`
       padding: 0 25px;
 
       h2.title {
-        font-size: 1.75rem;
+        font-size: 1.75em;
       }
     }
 
@@ -223,6 +227,7 @@ export const Products = styled.div`
   }
 
   .product {
+    min-height: 150px;
     &:hover .img-holder-link::after {
       opacity: 1;
     }

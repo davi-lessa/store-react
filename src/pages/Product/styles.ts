@@ -251,6 +251,7 @@ export const PictureBox = styled.div`
 
 export const Selling = styled.div`
   grid-area: selling;
+  user-select: none;
 
   .sell-box {
     position: sticky;

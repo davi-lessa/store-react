@@ -8,7 +8,7 @@ export const Container = styled.div`
 
   display: grid;
   grid-template-areas: 'header header' 'navmenu content';
-  grid-template-rows: 60px 1fr;
+  grid-template-rows: 50px 1fr;
   grid-template-columns: 200px 1fr;
 
   .nav-menu-holder {
@@ -25,4 +25,5 @@ export const Content = styled.div`
   padding: 25px;
   border-radius: 20px;
   max-height: 500px;
+  box-shadow: 0 0px 20px 0 #00000011;
 `

@@ -136,7 +136,6 @@ const ProductPage: React.FC = () => {
       </motion.div>
     )
 
-  const firstSKU = fetchedProduct?.skus?.data[0]
   const currentSKU = getSelectedVariationSKU()
 
   const carouselNavigate = (num: number) => carouselRef?.current?.slideTo(num)
@@ -428,7 +427,7 @@ const ProductPage: React.FC = () => {
                       <BoletoIcon />
                       Boleto
                     </span>
-                    <span>R$ {firstSKU?.price_discount?.toFixed(2)?.replace('.', ',')}</span>
+                    <span>R$ {currentSKU?.price_discount?.toFixed(2)?.replace('.', ',')}</span>
                   </button>
                 </div>
 

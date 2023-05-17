@@ -58,21 +58,31 @@ const Home: React.FC = () => {
   function renderCategories(categories: FeaturedCat[]) {
     const catsTypped: FeaturedCat[] = categories
 
-    const mappedCats = catsTypped.map((category) => {
+    const mappedCats = catsTypped.map((category, index) => {
       return (
-        <div className="featured-cat" key={'featured-' + category.category}>
-          <div className="cat-title">
-            <h2 className="title">{category.category}</h2>
-            <a className="see-all show-arrow" href="/categorias/utilidades-veiculos">
-              Ver todos
-            </a>
-          </div>
-          <hr style={{ marginBottom: '10px' }} />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: 0.3, delay: 0.4 } }}
+          exit={{ opacity: 0 }}
+          style={{
+            minHeight: '300px',
+          }}
+          key={'featured-' + category.category}
+        >
+          <div className="featured-cat">
+            <div className="cat-title">
+              <h2 className="title">{category.category}</h2>
+              <a className="see-all show-arrow" href="/categorias/utilidades-veiculos">
+                Ver todos
+              </a>
+            </div>
+            <hr style={{ marginBottom: '10px' }} />
 
-          <Flickity options={{ ...flickityOptions }} className="slider" flickityRef={flickityHandler}>
-            {renderProducts(category.products)}
-          </Flickity>
-        </div>
+            <Flickity options={{ ...flickityOptions }} className="slider" flickityRef={flickityHandler}>
+              {renderProducts(category.products)}
+            </Flickity>
+          </div>
+        </motion.div>
       )
     })
 
@@ -156,7 +166,7 @@ const Home: React.FC = () => {
                   gap: '15px',
                 }}
               >
-                <h2>Mais vendidos por categoria</h2>
+                <h2 style={{ fontSize: '1.75em' }}>Mais vendidos por categoria</h2>
                 <List style={{ maxWidth: '300px' }}></List>
                 <List style={{ maxWidth: '300px' }}></List>
                 <List style={{ maxWidth: '300px' }}></List>
