@@ -46,7 +46,7 @@ export const Products = styled.div`
   max-width: var(--desktop-max-width);
   margin: 0 auto;
   opacity: 0;
-  animation: slowShow 0.5s linear forwards 0.7s;
+  animation: slowShow 0.15s linear forwards 0.7s;
 
   .flickity-page-dots {
     bottom: 12px !important;
@@ -159,7 +159,7 @@ export const Products = styled.div`
   }
 
   .cat-expand-six {
-    animation: slowShow 0.5s linear forwards;
+    animation: slowShow 0.2s linear forwards;
     padding: 0 100px;
     display: grid;
     grid-gap: 10px;
@@ -419,7 +419,7 @@ export const SliderProductHolder = styled.div`
   overflow: hidden;
   border-radius: 8px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  animation: slowShow 0.5s ease;
+  animation: slowShow 0.2s ease;
   flex-basis: 100%;
   position: relative;
   user-select: none;

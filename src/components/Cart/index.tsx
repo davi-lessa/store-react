@@ -96,6 +96,30 @@ const Cart: React.FC = () => {
     </div>
   )
 
+  const calculations = doCalculations()
+
+  function doCalculations() {
+    const getFinalPrice = () => {
+      const total = cartData.items.reduce((acc, item) => {
+        return acc + Number(item?.price_discount) * item?.qty
+      }, 0)
+      return total.toFixed(2).padEnd(2, '0')
+    }
+
+    const getPriceWithoutDiscounts = () => {
+      const total = cartData.items.reduce((acc, item) => {
+        return acc + Number(item?.price_sale) * item?.qty
+      }, 0)
+      return total.toFixed(2).padEnd(2, '0')
+    }
+
+    return {
+      finalValue: getFinalPrice().replace('.', ','),
+      subtotal: getPriceWithoutDiscounts().replace('.', ','),
+      discounts: (Number(getPriceWithoutDiscounts()) - Number(getFinalPrice())).toFixed(2).padEnd(2, '0').replace('.', ','),
+    }
+  }
+
   const productList = () => {
     const formatVariations = (item: ExpectedCartItem) => (
       <ul>
@@ -134,7 +158,7 @@ const Cart: React.FC = () => {
                   )}
                 </span>
                 <span className="item-price">R$ {item?.price_discount.toFixed(2).replace('.', ',')}</span>
-                <span className="item-shipping">Frete: A calcular</span>
+                <span className="item-shipping">Envio: a calcular</span>
                 <div className="qty-holder">
                   <button className="cb-qtybtn minus hoverable" onClick={() => dispatch(cartActions.removeQty({ itemId: item.id, qtyToChange: 1 }))}>
                     <MinusIcon size={15}></MinusIcon>
@@ -159,21 +183,30 @@ const Cart: React.FC = () => {
 
   const footer = () => (
     <div className="cb-footer scroller medium squared">
-      <div className="cb-subtotals">
-        <span>Subtotal:</span>
-        <span className="value"></span>
-      </div>
-      <div className="cb-discount">
-        <span>Descontos:</span>
-        <span className="value"></span>
-      </div>
-      <div className="cb-freight">
-        <span>Frete:</span>
-        <span className="value"></span>
-      </div>
-      <div className="cb-totals">
-        <span>Total:</span>
-        <span className="value"></span>
+      <div className="calculations-wrapper" key={(() => Math.random())()}>
+        <div className="cb-subtotals">
+          <span>Subtotal:</span>
+          <span className="value">R$ {calculations.subtotal}</span>
+        </div>
+
+        <div className="cb-discount">
+          <span>Descontos:</span>
+          <span className="value">- R${calculations.discounts}</span>
+        </div>
+
+        <div className="cb-freight">
+          <span>Frete:</span>
+          <span className="value">
+            <Balancer>A calcular</Balancer>
+          </span>
+        </div>
+
+        <hr />
+
+        <div className="cb-totals">
+          <span>Total:</span>
+          <span className="value">R$ {calculations.finalValue}</span>
+        </div>
       </div>
 
       {continueShoppingBtn()}

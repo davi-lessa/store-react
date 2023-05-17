@@ -12,6 +12,7 @@ import Balancer from 'react-wrap-balancer'
 import { apiRequest, apiRoutes } from 'api'
 import { flickityOptions } from 'utils/flickity.options'
 import { motion } from 'framer-motion'
+import { List } from 'react-content-loader'
 
 //  width="100%" alt="">
 {
@@ -50,7 +51,7 @@ const Home: React.FC = () => {
     })
     e?._events?.select?.push(() => {
       sliddering.current = true
-      setTimeout(() => (sliddering.current = false), 1000)
+      setTimeout(() => (sliddering.current = false), 800)
     })
   }
 
@@ -94,14 +95,14 @@ const Home: React.FC = () => {
           <SliderProductHolder
             data-discount={discount ? discount + '% OFF' : null}
             className="product"
-            onClick={() => !sliddering.current && navigate('/product/' + item.slug)}
+            onClick={() => !sliddering.current && navigate('/produto/' + item.slug)}
           >
-            <Link to={'/product/' + item.slug} style={{ pointerEvents: 'none' }} className="img-holder-link">
-              <img src={item.firstImage.data.medium.url} alt="" draggable="false" />
+            <Link to={'/produto/' + item.slug} style={{ pointerEvents: 'none' }} className="img-holder-link">
+              <img src={item.firstImage.data.medium.url} alt="" draggable="false" width={1} height={1} style={{ height: '100%', width: '100%' }} />
             </Link>
 
             <div className="description">
-              <Link to={'/product/' + item.slug}>
+              <Link to={'/produto/' + item.slug}>
                 <span className="prod-title">
                   <Balancer>{item.name}</Balancer>
                 </span>
@@ -132,12 +133,36 @@ const Home: React.FC = () => {
   }
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} key={'main-home'}>
       <Container>
         <AnimatedBanner></AnimatedBanner>
 
         <Products>
-          <SliderContainer>{featuredCatsQuery.data && renderCategories(featuredCatsQuery.data)}</SliderContainer>
+          <SliderContainer>
+            {featuredCatsQuery?.data ? (
+              renderCategories(featuredCatsQuery.data)
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                style={{
+                  padding: '25px',
+                  margin: '25px',
+                  borderRadius: '15px',
+                  background: 'white',
+                  minHeight: '500px',
+                  display: 'grid',
+                  gap: '15px',
+                }}
+              >
+                <h2>Mais vendidos por categoria</h2>
+                <List style={{ maxWidth: '300px' }}></List>
+                <List style={{ maxWidth: '300px' }}></List>
+                <List style={{ maxWidth: '300px' }}></List>
+              </motion.div>
+            )}
+          </SliderContainer>
         </Products>
       </Container>
     </motion.div>

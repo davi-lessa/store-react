@@ -39,6 +39,10 @@ export const LoginWrapper = styled.div`
     text-align: center;
     width: 100%;
   }
+
+  @media screen and (max-width: 922px) {
+    width: 100%;
+  }
 `
 
 export const ButtonsWrapper = styled.div`

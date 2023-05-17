@@ -70,85 +70,132 @@ export const CartContainer = styled.div`
     padding: 0 15px;
   }
 
-  .cb-products ul.products {
-    display: flex;
-    flex-wrap: wrap;
-    height: 100%;
-    max-height: calc(100vh - 318px);
-    padding: 25px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    align-content: flex-start;
-  }
+  .cb-products {
+    .qty-holder {
+      display: flex;
+      align-items: center;
+      margin-top: 5px;
+      gap: 4px;
+    }
 
-  .cb-products ul.products > li.item {
-    height: max-content;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 65px 1fr;
-    gap: 8px 12px;
-    border-bottom: 1px solid;
-    border-color: #eeeeeeff;
-    position: relative;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    right: 0;
-    transition: right 0.3s, height 0.5s 0.3s, padding-bottom 0.5s 0.3s, margin-bottom 0.5s 0.3s, border-color 1s;
-    overflow: hidden;
-  }
+    .cb-qtybtn {
+      height: 25px;
+      width: 25px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #333;
+      background-color: #f8f8f8;
+      border: 1px solid #e8e8e8;
+    }
 
-  .cb-products ul.products li:last-child {
-    margin-bottom: 0;
-    border-color: #eeeeee00;
-    padding-bottom: 0;
-  }
+    .cb-qtybtn.minus {
+      margin-right: 5px;
+    }
 
-  .cb-products li .item-info {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2px;
-  }
+    .cb-qtybtn.plus {
+      margin-left: 5px;
+    }
 
-  .cb-products li .item-title {
-    font-size: 0.85rem;
-    line-height: 1;
-    color: #555;
-    padding-right: 35px;
-    font-weight: bold;
-  }
+    ul.products {
+      display: flex;
+      flex-wrap: wrap;
+      height: 100%;
+      max-height: calc(100vh - 350px);
+      padding: 25px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      align-content: flex-start;
 
-  .cb-products li .item-price {
-    font-size: 0.9rem;
-  }
+      & > li.item {
+        height: max-content;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 65px 1fr;
+        gap: 8px 12px;
+        border-bottom: 1px solid;
+        border-color: #eeeeeeff;
+        position: relative;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        right: 0;
+        transition: right 0.3s, height 0.5s 0.3s, padding-bottom 0.5s 0.3s, margin-bottom 0.5s 0.3s, border-color 1s;
+        overflow: hidden;
 
-  .cb-products li .item-old-price {
-    font-size: 0.7rem;
-    color: #777;
-    line-height: 1;
-  }
+        &:last-child {
+          margin-bottom: 0;
+          border-color: #eeeeee00;
+          padding-bottom: 0;
+        }
 
-  .cb-products li .item-old-price span {
-    color: #555;
-    text-decoration: line-through;
-    line-height: 1;
-  }
+        .item-info {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 2px;
+        }
 
-  .cb-products .qty-holder {
-    display: flex;
-    align-items: center;
-    margin-top: 5px;
-    gap: 4px;
-  }
+        .item-title {
+          font-size: 0.9rem;
+          line-height: 1;
+          color: #555;
+          padding-right: 35px;
+          font-weight: bold;
+        }
 
-  .cb-totals {
-    font-size: 1.15rem;
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #444;
+        .item-price {
+          font-size: 1rem;
+        }
+
+        .item-old-price {
+          font-size: 0.7rem;
+          color: #777;
+          line-height: 1;
+
+          span {
+            color: #555;
+            text-decoration: line-through;
+            line-height: 1;
+          }
+        }
+
+        .item-shipping {
+          font-size: 0.85rem;
+        }
+
+        .item-img {
+          max-width: 65px;
+          max-height: 65px;
+          border-radius: 4px;
+          overflow: hidden;
+          border: 1px solid #ddd;
+          padding: 3px;
+          display: flex;
+
+          img {
+            width: 100%;
+            object-fit: contain;
+          }
+        }
+
+        .item-remove-btn {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+          background-color: #f8f8f8;
+          box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.08);
+          border: 1px solid #e8e8e8;
+          border-radius: 10px;
+        }
+      }
+    }
   }
 
   .cb-item-variation {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     color: #888;
     line-height: 1;
     margin-top: 2px;
@@ -160,48 +207,6 @@ export const CartContainer = styled.div`
     line-height: 1;
   }
 
-  .cb-products .cb-qtybtn {
-    height: 25px;
-    width: 25px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #333;
-    background-color: #f8f8f8;
-    border: 1px solid #e8e8e8;
-  }
-
-  .cb-products .cb-qtybtn.minus {
-    margin-right: 5px;
-  }
-
-  .cb-products .cb-qtybtn.plus {
-    margin-left: 5px;
-  }
-
-  .cb-products ul.products li .item-shipping {
-    font-size: 0.85rem;
-  }
-
-  .cb-products ul.products li .item-img {
-    max-width: 65px;
-    max-height: 65px;
-    border-radius: 4px;
-    overflow: hidden;
-    border: 1px solid #ddd;
-    padding: 3px;
-    display: flex;
-  }
-
-  .cb-products ul.products li .item-img img {
-    width: 100%;
-    object-fit: contain;
-  }
-
   .cb-products ul.products li .item-remove-btn,
   .cb-content .close-btn {
     display: grid;
@@ -209,16 +214,6 @@ export const CartContainer = styled.div`
     width: 24px;
     height: 24px;
     cursor: pointer;
-  }
-
-  .cb-products ul.products li .item-remove-btn {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    background-color: #f8f8f8;
-    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e8e8e8;
-    border-radius: 10px;
   }
 
   .cb-content .close-btn {
@@ -232,32 +227,49 @@ export const CartContainer = styled.div`
     position: relative;
     padding: 15px;
     overflow-y: auto;
-  }
 
-  .cb-footer div {
-    display: flex;
-    justify-content: space-between;
+    .calculations-wrapper {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      animation: blink 0.35s ease-in-out forwards;
+    }
+
+    span {
+      font-size: 1em;
+      text-align: right;
+      width: max-content;
+      color: #444;
+    }
+
+    div {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    hr {
+      width: 100%;
+      height: 0;
+      outline: none;
+      border-bottom: 1px solid #e2e2e2;
+      margin: 3px 0;
+      background-color: transparent;
+    }
+    .cb-totals {
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: black;
+    }
   }
 
   .empty-cart {
-    /* border-bottom: 1px solid #d8d8d8; */
     padding: 25px;
     animation: fadeIn 0.5s;
     display: grid;
     justify-items: center;
-    /* height       : 100%; */
     align-content: flex-start;
     text-align: center;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
   }
 
   .blink {
@@ -266,16 +278,6 @@ export const CartContainer = styled.div`
 
   .blink-delay {
     animation: blink 0.55s;
-  }
-
-  @keyframes blink {
-    0% {
-      opacity: 0;
-    }
-
-    100% {
-      opacity: 1;
-    }
   }
 
   #goCheckout,
@@ -323,24 +325,37 @@ export const CartContainer = styled.div`
       padding-bottom: 50px;
     }
     .cb-content {
-      grid-template-rows: 62px auto auto;
+      grid-template-rows: 62px 9fr 10fr;
     }
-
-    .cb-products ul.products {
-      max-height: 100%;
+    .cb-products {
+      overflow-y: hidden;
+      ul.products {
+        max-height: 100%;
+      }
     }
   }
 
-  @media screen and (max-width: 768px) {
-    .cb-footer {
-      padding-bottom: 50px;
-    }
-    .cb-content {
-      grid-template-rows: 62px auto auto;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
     }
 
-    .cb-products ul.products {
-      max-height: 100%;
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes blink {
+    0% {
+      opacity: 0;
+    }
+
+    25% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
     }
   }
 `

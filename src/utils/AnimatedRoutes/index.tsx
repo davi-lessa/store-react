@@ -16,11 +16,11 @@ const AnimatedRoutes: React.FC = () => {
     <Routes location={location}>
       <Route path="/" element={<PageModel />}>
         <Route index element={<Home />}></Route>
-        <Route path="product/:slug?" element={<ProductPage />}></Route>
+        <Route path="produto/:slug?" element={<ProductPage />}></Route>
         <Route path="login" element={<LoginPage />}></Route>
 
         <Route element={<PrivateRoutes />}>
-          <Route path="account/" element={<Account />}></Route>
+          <Route path="minhaconta/:navigate?" element={<Account />}></Route>
         </Route>
       </Route>
 

@@ -137,7 +137,9 @@ export const GlobalStyle = styled.createGlobalStyle`
       overflow-y: hidden;
 
       @media screen and (min-width: 922px) {
-        padding-right: 17px;
+        #root {
+          margin-right: 17px;
+        }
       }
     }
   }

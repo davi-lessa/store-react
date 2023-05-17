@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const ProductContainer = styled.div`
   padding: 0 5%;
   min-height: 500px;
-  background-color: #f2f3f8;
+  background-color: #f2f3f5;
   height: 100%;
 
   h1 {
@@ -109,21 +109,35 @@ export const PictureBox = styled.div`
         box-shadow: 0px 0px 1px 1px #ccc;
         min-height: 50px;
 
+        &:hover {
+          &::after {
+            opacity: 1;
+          }
+        }
+
+        img {
+          border-radius: 4px;
+        }
+
+        &.active {
+          /* box-shadow: 0px 2px 1px 2px #3483fa88; */
+          &::after {
+            outline-width: 3px;
+            opacity: 1;
+          }
+        }
+
         &::after {
           content: '';
           position: absolute;
-          top: 0;
-          left: 0;
+          top: 0px;
+          left: 0px;
           width: 100%;
           height: 100%;
           border-radius: inherit;
           transition: opacity 0.25s ease;
           opacity: 0;
-
-          &.active {
-            box-shadow: 0px 0px 1px 2px #3483fa;
-            opacity: 1;
-          }
+          outline: 2px solid rgb(52, 131, 250);
         }
       }
     }
@@ -174,7 +188,11 @@ export const PictureBox = styled.div`
       z-index: 999;
       pointer-events: none;
       opacity: 0;
-      transition: opacity 0.5s ease 0.15s;
+      transition: opacity 0.5s ease 0.075s;
+
+      &.permanent {
+        opacity: 1;
+      }
 
       img {
         height: unset;
@@ -249,6 +267,7 @@ export const Selling = styled.div`
       position: relative !important;
       top: unset;
       border: none !important;
+      padding: 5px 25px;
 
       border-bottom: 1px solid #ddd !important;
       border-radius: 0 !important;
@@ -295,7 +314,7 @@ export const Selling = styled.div`
       display: flex;
       gap: 7px;
       align-items: center;
-      padding: 5px 0;
+      margin: 5px 0;
       width: max-content;
 
       .stars {
@@ -322,7 +341,7 @@ export const Selling = styled.div`
       margin-bottom: 10px;
     }
     .sell-box-old-price {
-      margin-top: 5px;
+      /* margin-top: 5px; */
       span {
         margin-top: 50px;
         color: #aaa;
@@ -493,16 +512,8 @@ export const Selling = styled.div`
     }
 
     .sell-box-shipping-calc {
-      margin-bottom: 10px button {
-        border-radius: 4px;
-      }
-
-      #cepInput {
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 7px 10px;
-        width: 100%;
-      }
+      margin-bottom: 10px;
+      position: relative;
 
       .block-title {
         color: #3483fa;
@@ -512,6 +523,30 @@ export const Selling = styled.div`
 
       .cep-holder {
         grid-template-columns: 7fr 3fr;
+        display: grid;
+        align-items: center;
+        gap: 10px;
+        height: 100%;
+
+        #cepInput {
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          padding: 10px 10px;
+          width: 100%;
+          height: 100%;
+          font-size: 1em;
+        }
+
+        button {
+          background: rgb(239, 239, 239);
+          border-radius: 6px;
+          font-weight: 500;
+          font-size: 15px;
+          padding: 7px 10px;
+          height: 100%;
+          color: #333;
+          border: 1px solid #ddd;
+        }
       }
 
       .cep-result {
@@ -682,7 +717,7 @@ export const RelatedProducts = styled.div`
         text-decoration: line-through;
         font-size: 0.9rem;
         color: #aaa;
-        margin-top: 5px;
+        /* margin-top: 5px; */
         line-height: 1;
       }
 

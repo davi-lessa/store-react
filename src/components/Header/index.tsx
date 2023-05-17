@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ borderColor }: HeaderProps) => {
   const user = getUser()
 
   function goAccount() {
-    if (user) navigate('/account')
+    if (user) navigate('/minhaconta')
     else navigate('/auth')
   }
 

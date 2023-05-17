@@ -48,8 +48,6 @@ interface VariationOptions {
 const ProductPage: React.FC = () => {
   const params = useParams()
   const navigate = useNavigate()
-
-  // const cartData = useSelector((state: RootState) => state.cart, shallowEqual)
   const dispatch = useDispatch()
 
   const productReviews = useRef<HTMLElement>(null)
@@ -74,6 +72,8 @@ const ProductPage: React.FC = () => {
     { staleTime: 10 * 1000 * 60 }
   )
 
+  const fetchedProduct = productData && productData.data[0]
+
   useEffect(() => {
     const handleScroll = () => {
       if (!sellingRef.current || !sellBoxRef.current) return
@@ -95,31 +95,39 @@ const ProductPage: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    // console.log(selectedVariation, getSelectedSKU())
-  }, [selectedVariation])
-
-  useEffect(() => {
     setDefaultVariaton()
   }, [productData])
 
+  useEffect(() => {
+    const sku = getSelectedVariationSKU()
+    const skuImage = sku?.images?.data?.[0]?.medium?.url
+    skuImage && imagePreviewRef.current && (imagePreviewRef.current.src = skuImage)
+    const imagePreviewEl: HTMLImageElement | null | undefined = imagePreviewRef.current?.closest('.image-preview')
+    imagePreviewEl && imagePreviewEl.classList.add('permanent')
+  }, [selectedVariation])
+
   function setDefaultVariaton() {
-    if (productData?.data[0] && !Object.keys(selectedVariation).length) {
+    if (fetchedProduct && !Object.keys(selectedVariation).length) {
       const newVariation: { [key: string]: VariationOptions } = {}
       productData.data[0].variations.data.forEach(
         (variation, varIndex) =>
           (newVariation[String(variation.id)] = { optionId: variation.values.data[0].id, optionValue: variation.values.data[0].value, varIndex })
       )
-
       setSelectedVariation(newVariation)
     }
   }
 
-  if (!productData?.data[0])
+  if (!fetchedProduct)
     return (
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ height: '100%', padding: '25px' }}>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        style={{ height: '100%', padding: '25px', background: '#f2f3f5' }}
+      >
         <ProductContainer>
           <ProductMarginHolder style={{ height: '100%' }}>
-            <ProductContent style={{ height: '100%' }}>
+            <ProductContent style={{ height: '100%', padding: '25px' }}>
               <List></List>
             </ProductContent>
           </ProductMarginHolder>
@@ -127,20 +135,20 @@ const ProductPage: React.FC = () => {
       </motion.div>
     )
 
-  const product = productData.data[0]
-  const firstSKU = product?.skus?.data[0]
+  const firstSKU = fetchedProduct?.skus?.data[0]
+  const currentSKU = getSelectedVariationSKU()
 
   const carouselNavigate = (num: number) => carouselRef?.current?.slideTo(num)
   const imagePreviewSet = (url: string) => imagePreviewRef?.current && (imagePreviewRef.current.src = url)
 
-  function getSelectedSKU() {
+  function getSelectedVariationSKU(): ProductAPIResponse['data'][0]['skus']['data'][0] | null {
     try {
-      if (!productData?.data[0]) return null
+      if (!fetchedProduct) return null
       const selectedVariationLength = Object.keys(selectedVariation).length
-      const hasSingleVariations = productData?.data[0]?.variations?.data?.every((variation) => variation.values.data.length === 1)
+      const hasSingleVariations = fetchedProduct?.variations?.data?.every((variation) => variation.values.data.length === 1)
 
       if (hasSingleVariations) return productData.data[0].skus.data[0]
-      if (selectedVariationLength < productData?.data[0]?.variations?.data?.length) return
+      if (selectedVariationLength < fetchedProduct?.variations?.data?.length) return null
 
       const combination = Object.entries(selectedVariation)
         .sort(([e1Key, e1Value], [e2Key, e2Value]) => {
@@ -151,31 +159,31 @@ const ProductPage: React.FC = () => {
           return pre + cur[1].optionId
         }, '')
 
-      return productData.data[0].skus.data.find((sku) => sku.combinations === combination)
+      return productData.data[0].skus.data.find((sku) => sku.combinations === combination) || null
     } catch (error) {
-      console.warn("Couldn't get current sku")
+      console.warn("Couldn't get current sku", error)
+      return null
     }
   }
 
   function addToCart() {
-    const currentSKU = getSelectedSKU()
-    if (!currentSKU || !productData?.data[0] || !selectQtyRef.current) return
+    const currSKU = getSelectedVariationSKU()
+    if (!currSKU || !fetchedProduct || !selectQtyRef.current) return
     const qty = selectQtyRef.current?.selectedIndex + 1 || 1
-    console.log(qty)
 
-    const itemToCart: ExpectedAddPayload = { ...productData?.data[0], qty, skus: { data: [currentSKU] } }
+    const itemToCart: ExpectedAddPayload = { ...fetchedProduct, qty, skus: { data: [currSKU] } }
     dispatch(cartActions.addItem(itemToCart))
     dispatch(cartActions.setCartOpen())
   }
 
-  const totalRate = Object.entries(product.reviews).reduce((a, b) => {
+  const totalRate = Object.entries(fetchedProduct.reviews).reduce((a, b) => {
     const [bKey, bValue] = b
     return a + bValue * Number(bKey)
   }, 0)
-  const avgReviews = Number((totalRate / product.extras?.data?.total_reviews || 0)?.toFixed(1))
+  const avgReviews = Number((totalRate / fetchedProduct.extras?.data?.total_reviews || 0)?.toFixed(1))
 
-  function generateStars() {
-    if (product?.extras?.data?.total_reviews == 0) return ''
+  function generateRatingStars(productItem: ProductAPIResponse['data'][0]) {
+    if (fetchedProduct?.extras?.data?.total_reviews == 0) return ''
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
       <div
@@ -193,15 +201,15 @@ const ProductPage: React.FC = () => {
           {avgReviews < 5 ? Array.from({ length: Math.floor(5 - avgReviews) }, () => <div key="rev-empty-star" className="empty-star"></div>) : ''}
         </div>
         <span className="rate-qty-full">
-          <span className="rate-qty">{product.extras?.data?.total_reviews}</span>{' '}
-          {product.extras?.data?.total_reviews > 1 ? 'avaliações' : 'avaliação'}
+          <span className="rate-qty">{productItem?.extras?.data?.total_reviews}</span>{' '}
+          {productItem?.extras?.data?.total_reviews > 1 ? 'avaliações' : 'avaliação'}
         </span>
       </div>
     )
   }
 
-  function variationsFormat() {
-    return product?.variations.data.map((variation, varIndex) => {
+  function variationsFormat(productItem: ProductAPIResponse['data'][0]) {
+    return productItem?.variations.data.map((variation, varIndex) => {
       return (
         <li key={'variation-' + variation.id}>
           <div className="variation_box" data-varid={variation?.id} data-varname={variation?.name}>
@@ -214,9 +222,9 @@ const ProductPage: React.FC = () => {
                 <li
                   key={'var-option-' + option.id}
                   className={selectedVariation?.[variation.id]?.optionId === option.id ? 'selected' : ''}
-                  onClick={() =>
+                  onClick={() => {
                     setSelectedVariation((current) => ({ ...current, [variation.id]: { optionId: option.id, optionValue: option.value, varIndex } }))
-                  }
+                  }}
                 >
                   <span>{option?.value}</span>
                 </li>
@@ -229,7 +237,7 @@ const ProductPage: React.FC = () => {
   }
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} key="product-handler">
       <ProductContainer>
         <ProductMarginHolder>
           <ProductContent>
@@ -237,14 +245,24 @@ const ProductPage: React.FC = () => {
               <PictureBox>
                 <div className="roller">
                   <ul className="scroller thin lighter">
-                    {product.images.data.map((img, index) => {
+                    {fetchedProduct.images.data.map((img, index) => {
                       return (
                         <li
                           key={'thumb-' + img.id}
                           data-index={index}
                           className={index === 0 ? 'active' : ''}
-                          onClick={() => carouselNavigate(index)}
+                          onClick={(e) => {
+                            e.currentTarget
+                              .closest('ul')
+                              ?.querySelectorAll('li')
+                              .forEach((li) => li.classList.remove('active'))
+                            e.currentTarget.classList.add('active')
+                            imagePreviewRef?.current?.closest('.image-preview')?.classList?.remove('permanent')
+
+                            carouselNavigate(index)
+                          }}
                           onMouseEnter={() => window.innerWidth > 922 && imagePreviewSet(img.medium.url)}
+                          onMouseLeave={() => imagePreviewRef?.current?.closest('.image-preview')?.classList?.remove('permanent')}
                         >
                           <img draggable="false" src={img?.small?.url} alt="" />
                         </li>
@@ -255,7 +273,7 @@ const ProductPage: React.FC = () => {
 
                 <div className="img-carousel">
                   <div className="image-preview">
-                    <img src={product.images.data[0].medium.url} alt="main preview" draggable={false} ref={imagePreviewRef} />
+                    <img src={fetchedProduct.images.data[0].medium.url} alt="main preview" draggable={false} ref={imagePreviewRef} />
                   </div>
 
                   <Swiper
@@ -265,7 +283,7 @@ const ProductPage: React.FC = () => {
                     pagination={{ dynamicBullets: true }}
                     onSwiper={(swiper) => (carouselRef.current = swiper)}
                   >
-                    {product.images.data.map((img) => {
+                    {fetchedProduct.images.data.map((img) => {
                       return (
                         <SwiperSlide key={'swp-main-slider-' + img.id}>
                           <img src={img.medium.url} alt="" loading="lazy" />
@@ -284,12 +302,12 @@ const ProductPage: React.FC = () => {
                 </div>
 
                 <div className="sell-box-title">
-                  <h1>{product.name}</h1>
+                  <h1>{fetchedProduct.name}</h1>
                 </div>
 
                 <div className="sell-box-flags">
-                  {firstSKU?.price_sale / firstSKU?.price_discount > 1 ? (
-                    <span className="flag discount">{Math.floor(Math.abs(firstSKU?.price_discount / firstSKU?.price_sale - 1) * 100)} % OFF</span>
+                  {currentSKU?.price_sale && currentSKU.price_sale / currentSKU?.price_discount > 1 ? (
+                    <span className="flag discount">{Math.floor(Math.abs(currentSKU?.price_discount / currentSKU?.price_sale - 1) * 100)} % OFF</span>
                   ) : (
                     ''
                   )}
@@ -301,16 +319,16 @@ const ProductPage: React.FC = () => {
                   </span>
                 </div>
 
-                {generateStars()}
+                {generateRatingStars(fetchedProduct)}
 
                 <div className="sell-box-old-price">
-                  <span style={{ textDecoration: 'line-through' }}>R$ {firstSKU?.price_sale?.toFixed(2)?.replace('.', ',')}</span>
+                  <span style={{ textDecoration: 'line-through' }}>R$ {currentSKU?.price_sale?.toFixed(2)?.replace('.', ',')}</span>
                 </div>
 
                 <div className="sell-box-price">
                   <h2>
-                    R$ {String(firstSKU?.price_discount)?.split('.')?.[0]}
-                    <sup>{String(firstSKU?.price_discount)?.split('.')?.[1]?.padEnd(2, '0') || '00'}</sup>
+                    R$ {String(currentSKU?.price_discount)?.split('.')?.[0]}
+                    <sup>{String(currentSKU?.price_discount)?.split('.')?.[1]?.padEnd(2, '0') || '00'}</sup>
                   </h2>
                 </div>
 
@@ -321,7 +339,7 @@ const ProductPage: React.FC = () => {
                 </div>
 
                 <div className="variations">
-                  <ul>{variationsFormat()}</ul>
+                  <ul>{variationsFormat(fetchedProduct)}</ul>
                 </div>
 
                 <div className="sell-box-sell-box">
@@ -418,7 +436,7 @@ const ProductPage: React.FC = () => {
               <div
                 className="html-desc"
                 dangerouslySetInnerHTML={{
-                  __html: product.texts?.data?.description.replace(
+                  __html: fetchedProduct.texts?.data?.description.replace(
                     /<img[^>]* src="([^"]*)"[^>]*>/g,
                     (match, g1) => `<img src=${g1} alt="" loading="lazy" />`
                   ),

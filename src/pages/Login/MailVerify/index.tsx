@@ -22,7 +22,7 @@ const MailVerify: React.FC = () => {
         // Additional user info profile not available via:
         // result.additionalUserInfo.profile == null
         // You can check if the user is new or existing:
-        // result.additionalUserInfo.isNewUser
+        // result.additionalUserInfo.isNewUserg
       })
       .catch((error) => {
         dispatch(authActions.logout())
