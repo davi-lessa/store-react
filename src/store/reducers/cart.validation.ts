@@ -81,6 +81,10 @@ const ItemSchema = z.object({
   shipping_price: z.string(),
   qty: z.number(),
   slug: z.string(),
+  length: z.number(),
+  width: z.number(),
+  height: z.number(),
+  weight: z.number(),
 })
 
 export const expectedCartArraySchema = z.array(ItemSchema)

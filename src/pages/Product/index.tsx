@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { Description, PictureBox, ProductContainer, ProductContent, ProductMarginHolder, Selling } from './styles'
 import { useQuery } from 'react-query'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { apiRequest, apiRoutes } from 'api'
 
 // Icons
@@ -13,7 +13,9 @@ import { ReactComponent as VisaIcon } from 'assets/img/card_visa.svg'
 import { ReactComponent as MasterIcon } from 'assets/img/card_master.svg'
 import { ReactComponent as EloIcon } from 'assets/img/card_elo.svg'
 import { ReactComponent as AmexIcon } from 'assets/img/card_amex.svg'
-import { ReactComponent as BoletoIcon } from 'assets/img/boleto.svg'
+// import { ReactComponent as BoletoIcon } from 'assets/img/boleto.svg'
+import { MdPix as PixIcon } from 'react-icons/md'
+
 import { List } from 'react-content-loader'
 
 import './remaining_css.css'
@@ -29,6 +31,7 @@ import { motion } from 'framer-motion'
 import { ExpectedAddPayload, actions as cartActions } from 'store/reducers/cart'
 import { useDispatch } from 'react-redux'
 import Accordion from 'components/Accordion'
+import ShippingCalculator from 'components/Product/ShippingCalculator'
 
 interface ProductAPIResponse {
   data: ProductItem[]
@@ -49,16 +52,19 @@ interface VariationOptions {
 const ProductPage: React.FC = () => {
   const params = useParams()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const dispatch = useDispatch()
 
   const productReviews = useRef<HTMLElement>(null)
   const lastScrollPos = useRef(0)
   const sellBoxRef = useRef<HTMLDivElement>(null)
   const sellingRef = useRef<HTMLDivElement>(null)
-  const selectQtyRef = useRef<HTMLSelectElement>(null)
+  // const selectQtyRef = useRef<HTMLSelectElement>(null)
   const carouselRef = useRef<any>(null)
   const imagePreviewRef = useRef<HTMLImageElement>(null)
+
   const [selectedVariation, setSelectedVariation] = useState<{ [variationId: string]: VariationOptions }>({})
+  const [selectedQty, setSelectedQty] = useState<number>(1)
 
   const slug: string | undefined = params.slug
 
@@ -76,6 +82,7 @@ const ProductPage: React.FC = () => {
   const fetchedProduct = productData && productData.data[0]
 
   useEffect(() => {
+    // Scroll handling for selling section on desktop
     const handleScroll = () => {
       if (!sellingRef.current || !sellBoxRef.current) return
       const pgY = window.scrollY
@@ -88,12 +95,17 @@ const ProductPage: React.FC = () => {
       lastScrollPos.current = pgY
     }
 
-    window.addEventListener('scroll', handleScroll)
+    if (window.innerWidth > 922) window.addEventListener('scroll', handleScroll)
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
+
+  useEffect(() => {
+    // Scroll up on load
+    window.scrollTo(0, 0)
+  }, [pathname])
 
   useEffect(() => {
     setDefaultVariaton()
@@ -118,7 +130,9 @@ const ProductPage: React.FC = () => {
     }
   }
 
-  if (!fetchedProduct)
+  const currentSKU = getSelectedVariationSKU()
+
+  if (!fetchedProduct || !currentSKU)
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -135,8 +149,6 @@ const ProductPage: React.FC = () => {
         </ProductContainer>
       </motion.div>
     )
-
-  const currentSKU = getSelectedVariationSKU()
 
   const carouselNavigate = (num: number) => carouselRef?.current?.slideTo(num)
   const imagePreviewSet = (url: string) => imagePreviewRef?.current && (imagePreviewRef.current.src = url)
@@ -168,8 +180,8 @@ const ProductPage: React.FC = () => {
 
   function addToCart() {
     const currSKU = getSelectedVariationSKU()
-    if (!currSKU || !fetchedProduct || !selectQtyRef.current) return
-    const qty = selectQtyRef.current?.selectedIndex + 1 || 1
+    if (!currSKU || !fetchedProduct || !selectedQty) return
+    const qty = selectedQty || 1
 
     const itemToCart: ExpectedAddPayload = { ...fetchedProduct, qty, skus: { data: [currSKU] } }
     dispatch(cartActions.addItem(itemToCart))
@@ -236,34 +248,50 @@ const ProductPage: React.FC = () => {
     })
   }
 
-  const generatePaymentConditions = (
-    value: number,
-    maxParcels: number = generalSettings.payment_parcels_max,
-    taxFreeParcelsCount: number = generalSettings.payment_parcels_no_tax_count
-  ) => {
+  const generatePaymentConditions = ({
+    value,
+    maxParcels = generalSettings.payment_parcels_max,
+    taxFreeParcelsCount = generalSettings.payment_parcels_no_tax_count,
+  }: {
+    value: number
+    maxParcels?: number
+    taxFreeParcelsCount?: number
+  }) => {
     //                //2x    3x    4x ...
     const mlTaxes = [1.0764, 1.0923, 1.1086, 1.1231, 1.1365, 1.1472, 1.1623, 1.1769, 1.1865, 1.2012, 1.2161]
-    return (
-      <>
-        {Array.from({ length: maxParcels }, (_, i) => {
-          const isTaxFree = i < taxFreeParcelsCount ? true : false
-          const parcel = isTaxFree
-            ? (Math?.floor((value * 100) / (i + 1)) / 100)?.toFixed(2)?.replace('.', ',')
-            : (Math.round((Math.round(value * mlTaxes[i - 1] * 100) / 100 / (i + 1)) * 100) / 100).toFixed(2).replace('.', ',')
+    const parcels: any[] = []
 
-          return (
-            <span className="parcel-wrapper" key={'parcel-condition-' + i}>
-              <span className="parcel-count">{i + 1}x</span> <span className="separator"></span>
-              <span className="parcel-price">
-                R$ {parcel}
-                {isTaxFree ? ' s/ juros' : ''}
+    Array.from({ length: maxParcels }, (_, i) => {
+      const isTaxFree = i === 0 || i < taxFreeParcelsCount ? true : false
+      const parcel = isTaxFree
+        ? Math?.floor((value * 100) / (i + 1)) / 100
+        : Math.round((Math.round(value * mlTaxes[i - 1] * 100) / 100 / (i + 1)) * 100) / 100
+
+      const formatted = parcel?.toFixed(2)?.replace('.', ',')
+      parcels.push({ value: formatted, isTaxFree })
+    })
+
+    return {
+      parcels,
+      structured: (
+        <>
+          {parcels.map((parcel, i) => {
+            return (
+              <span className="parcel-wrapper" key={'parcel-condition-' + i}>
+                <span className="parcel-count">{i + 1}x</span> <span className="separator"></span>
+                <span className="parcel-price">
+                  R$ {parcel.value}
+                  {i === 0 ? ' à vista' : parcel?.isTaxFree ? ' s/ juros' : ''}
+                </span>
               </span>
-            </span>
-          )
-        })}
-      </>
-    )
+            )
+          })}
+        </>
+      ),
+    }
   }
+
+  const paymentConditions = generatePaymentConditions({ value: (currentSKU?.price_discount && currentSKU.price_discount * selectedQty) || 0 })
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} key="product-handler">
@@ -351,19 +379,26 @@ const ProductPage: React.FC = () => {
                 {generateRatingStars(fetchedProduct)}
 
                 <div className="sell-box-old-price">
-                  <span style={{ textDecoration: 'line-through' }}>R$ {currentSKU?.price_sale?.toFixed(2)?.replace('.', ',')}</span>
+                  <span style={{ textDecoration: 'line-through' }}>
+                    R$ {(Number(currentSKU?.price_sale) * selectedQty)?.toFixed(2)?.replace('.', ',')}
+                  </span>
                 </div>
 
                 <div className="sell-box-price">
                   <h2>
-                    R$ {String(currentSKU?.price_discount)?.split('.')?.[0]}
-                    <sup>{String(currentSKU?.price_discount)?.split('.')?.[1]?.padEnd(2, '0') || '00'}</sup>
+                    R$ {(currentSKU?.price_discount && currentSKU.price_discount * selectedQty)?.toFixed(2)?.split('.')?.[0]}
+                    <sup>
+                      {(currentSKU?.price_discount && currentSKU.price_discount * selectedQty)?.toFixed(2)?.split('.')?.[1]?.padEnd(2, '0') || '00'}
+                    </sup>
                   </h2>
                 </div>
 
                 <div className="sell-box-parcel-max">
                   <span>à vista ou </span>
-                  <span style={{ color: '#00a650' }}>12x de R$ 19,98</span>
+                  <span style={{ color: '#00a650' }}>
+                    {generalSettings.payment_parcels_max}x de R$
+                    {paymentConditions.parcels[paymentConditions.parcels.length - 1].value}
+                  </span>
                   <span>*</span>
                 </div>
 
@@ -373,7 +408,13 @@ const ProductPage: React.FC = () => {
 
                 <div className="sell-box-sell-box">
                   <div className="input-holder-sbs">
-                    <select id="quantity" style={{ border: '1px solid #ddd', borderRadius: '4px' }} ref={selectQtyRef}>
+                    <select
+                      id="quantity"
+                      style={{ border: '1px solid #ddd', borderRadius: '4px' }}
+                      onChange={(e) => {
+                        setSelectedQty(e.currentTarget.selectedIndex + 1)
+                      }}
+                    >
                       {Array.from({ length: generalSettings.max_cart_items }, (_, i) => (
                         <option key={'qty-option-' + i} value={i + 1}>
                           {i + 1}
@@ -416,7 +457,7 @@ const ProductPage: React.FC = () => {
                           </ul>
                           <span>Ver parcelas</span>
                         </>,
-                        <div key={'accord-panel'}>{generatePaymentConditions(Number(currentSKU?.price_discount))}</div>,
+                        <div key={'accord-panel'}>{paymentConditions.structured}</div>,
                         { groupName: 'parcelas', buttonClass: 'parcelas-accord', panelClass: 'parcelsgroup', arrowRight: true },
                       ],
                     ]}
@@ -424,23 +465,43 @@ const ProductPage: React.FC = () => {
 
                   <button className="dlv_accord boleto-accord no-arrow" data-group="parcelas">
                     <span style={{ display: 'flex', alignItems: 'center' }}>
-                      <BoletoIcon />
-                      Boleto
+                      <PixIcon size={20} color="#00bdae" style={{ marginRight: '5px' }} />
+                      Pix
                     </span>
-                    <span>R$ {currentSKU?.price_discount?.toFixed(2)?.replace('.', ',')}</span>
+                    <span>
+                      R$&nbsp;
+                      {(
+                        Number(currentSKU?.price_discount) &&
+                        (Number(currentSKU?.price_discount) * (100 - generalSettings.payment_pix_discount_percent)) / 100
+                      )
+                        ?.toFixed(2)
+                        ?.replace('.', ',')}
+                      {generalSettings.payment_pix_discount_percent ? (
+                        <span style={{ fontSize: '.85em', marginLeft: '3px', color: 'forestgreen' }}>
+                          -{generalSettings.payment_pix_discount_percent}%
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                    </span>
                   </button>
                 </div>
 
                 {/* {shippingBlock} */}
 
                 <div className="sell-box-shipping-calc">
-                  <span className="block-title">Calcular frete</span>
-                  <div className="input-holder-sbs cep-holder">
-                    <input type="tel" className="freight-input" placeholder={localStorage.getItem('cep') ?? 'CEP'} id="cepInput" />
-                    <button className="freight-button hoverable">Calcular</button>
-                  </div>
-                  <div className="cep-result" hidden></div>
+                  <ShippingCalculator
+                    itemInfo={{
+                      height: currentSKU.height,
+                      width: currentSKU.width,
+                      weight: currentSKU.weight,
+                      length: currentSKU.length,
+                      quantity: selectedQty,
+                      id: String(currentSKU.id),
+                    }}
+                  ></ShippingCalculator>
                 </div>
+
                 <div className="sell-box-warranties">
                   <ul style={{ marginTop: '20px' }}>
                     <li>

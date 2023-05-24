@@ -15,6 +15,8 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { ProductItem } from 'types/product.item'
 import { actions as cartActions } from 'store/reducers/cart'
 import { ExpectedCartItem } from 'types/cart-expected-product'
+import { useNavigate } from 'react-router-dom'
+import { getBuyLink } from 'utils/cart'
 
 const Cart: React.FC = () => {
   const cartContainer = useRef<HTMLDivElement>(null)
@@ -216,7 +218,14 @@ const Cart: React.FC = () => {
 
       {continueShoppingBtn()}
 
-      <button id="goCheckout" className="hoverable">
+      <button
+        id="goCheckout"
+        className="hoverable"
+        onClick={() => {
+          const buyLink = getBuyLink()
+          buyLink && (window.location.href = buyLink)
+        }}
+      >
         Finalizar Compra
       </button>
 

@@ -70,10 +70,12 @@ const LoginPage: React.FC = () => {
             />
           </InputWrapper>
           <LoginButton onClick={signInWithEmail} className="facebook">
-            Continuar com e-mail
+            Receber acesso via e-mail
           </LoginButton>
 
-          <h3 className="mt-20 mb-20">ou</h3>
+          <p className="mt-20 mb-20" style={{ textAlign: 'center' }}>
+            ou
+          </p>
           <ButtonsWrapper>
             <LoginButton onClick={signInWithGoogle}>
               <IconGoogle size={22} />
@@ -85,6 +87,7 @@ const LoginPage: React.FC = () => {
               Continuar com Facebook
             </LoginButton> */}
           </ButtonsWrapper>
+          {/* <p>Dúvidas no acesso?</p> */}
         </LoginWrapper>
       </Container>
     </motion.div>

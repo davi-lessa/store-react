@@ -1006,6 +1006,13 @@
   dependencies:
     "react-icons" "*"
 
+"@types/react-input-mask@^3.0.2":
+  "integrity" "sha512-WTli3kUyvUqqaOLYG/so2pLqUvRb+n4qnx2He5klfqZDiQmRyD07jVIt/bco/1BrcErkPMtpOm+bHii4Oed6cQ=="
+  "resolved" "https://registry.npmjs.org/@types/react-input-mask/-/react-input-mask-3.0.2.tgz"
+  "version" "3.0.2"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-lazyload@^3.2.0":
   "integrity" "sha512-4+r+z8Cf7L/mgxA1vl5uHx5GS/8gY2jqq2p5r5WCm+nUsg9KilwQ+8uaJA3EUlLj57AOzOfGGwwRJ5LOVl8fwA=="
   "resolved" "https://registry.npmjs.org/@types/react-lazyload/-/react-lazyload-3.2.0.tgz"
@@ -1017,6 +1024,13 @@
   "integrity" "sha512-ZiqdencANDZy6sWOWJ54LDvebuXFEhDlHtXU9FFipQR2BcYU2QJxZhvJPW6YK7cocibUiNn+YvDTbt1HtCIBVA=="
   "resolved" "https://registry.npmjs.org/@types/react-slick/-/react-slick-0.23.10.tgz"
   "version" "0.23.10"
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-text-mask@^5.4.11":
+  "integrity" "sha512-DIJ3/dS4jd7NK3lEgsOwcgpp+ZlVrNJEiUDRayZRE/PNMbV/nLWmOKGdL0BUS29hnx0CDgITgPudKx0BgbF5fA=="
+  "resolved" "https://registry.npmjs.org/@types/react-text-mask/-/react-text-mask-5.4.11.tgz"
+  "version" "5.4.11"
   dependencies:
     "@types/react" "*"
 
@@ -3117,7 +3131,7 @@
   "resolved" "https://registry.npmjs.org/prettier/-/prettier-2.8.7.tgz"
   "version" "2.8.7"
 
-"prop-types@^15.7.2", "prop-types@^15.8.1":
+"prop-types@^15.5.6", "prop-types@^15.7.2", "prop-types@^15.8.1":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -3265,12 +3279,19 @@
   dependencies:
     "@remix-run/router" "1.5.0"
 
+"react-text-mask@^5.5.0":
+  "integrity" "sha512-SLJlJQxa0uonMXsnXRpv5abIepGmHz77ylQcra0GNd7Jtk4Wj2Mtp85uGQHv1avba2uI8ZvRpIEQPpJKsqRGYw=="
+  "resolved" "https://registry.npmjs.org/react-text-mask/-/react-text-mask-5.5.0.tgz"
+  "version" "5.5.0"
+  dependencies:
+    "prop-types" "^15.5.6"
+
 "react-wrap-balancer@^0.4.1":
   "integrity" "sha512-KbIwnnCBCxj5u4yr76NXKKriM94VL33LtO9bE0sedCp4yqdGYJD8TGU+2zlPxkguH5xxKxdapBtMYdMAODk/QQ=="
   "resolved" "https://registry.npmjs.org/react-wrap-balancer/-/react-wrap-balancer-0.4.1.tgz"
   "version" "0.4.1"
 
-"react@*", "react@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^18.0.0", "react@^18.2.0", "react@>= 16.8.0", "react@>=16.0.0", "react@>=16.8":
+"react@*", "react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^18.0.0", "react@^18.2.0", "react@>= 16.8.0", "react@>=16.0.0", "react@>=16.8":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"

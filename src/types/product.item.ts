@@ -136,6 +136,10 @@ interface Skus {
     images: Images
     combinations: string
     customizations: Customizations
+    length: number
+    width: number
+    height: number
+    weight: number
   }[]
 }
 

@@ -14,11 +14,6 @@ import { flickityOptions } from 'utils/flickity.options'
 import { motion } from 'framer-motion'
 import { List } from 'react-content-loader'
 
-//  width="100%" alt="">
-{
-  /* <img src="../../assets/img/only_background.jpg" width="100%" alt=""> */
-}
-
 const Home: React.FC = () => {
   const featuredCatsQuery = useQuery(
     'featuredCats',

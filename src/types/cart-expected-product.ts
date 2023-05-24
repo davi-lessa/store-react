@@ -19,6 +19,10 @@ export interface ExpectedCartItem {
   shipping_price: string
   qty: number
   slug: string
+  length: number
+  width: number
+  height: number
+  weight: number
 }
 
 interface Variation {

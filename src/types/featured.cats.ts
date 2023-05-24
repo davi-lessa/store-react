@@ -35,6 +35,10 @@ interface Daum2 {
   price_sale: number
   price_discount: number
   purchase_url: string
+  length: number
+  width: number
+  height: number
+  weight: number
 }
 
 interface FirstImage {

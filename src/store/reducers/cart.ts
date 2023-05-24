@@ -77,6 +77,10 @@ const cartSlice = createSlice({
           sku,
           title,
           variations,
+          height,
+          length,
+          width,
+          weight,
         } = currentSKU
 
         currentState.items.push({
@@ -98,6 +102,10 @@ const cartSlice = createSlice({
           slug: payload.slug,
           title,
           variations,
+          weight,
+          width,
+          height,
+          length,
         })
       }
     },
