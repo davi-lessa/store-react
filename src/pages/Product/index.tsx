@@ -131,6 +131,7 @@ const ProductPage: React.FC = () => {
   }
 
   const currentSKU = getSelectedVariationSKU()
+  const canSale = currentSKU && currentSKU.can_sale
 
   if (!fetchedProduct || !currentSKU)
     return (
@@ -407,31 +408,39 @@ const ProductPage: React.FC = () => {
                 </div>
 
                 <div className="sell-box-sell-box">
-                  <div className="input-holder-sbs">
-                    <select
-                      id="quantity"
-                      style={{ border: '1px solid #ddd', borderRadius: '4px' }}
-                      onChange={(e) => {
-                        setSelectedQty(e.currentTarget.selectedIndex + 1)
-                      }}
-                    >
-                      {Array.from({ length: generalSettings.max_cart_items }, (_, i) => (
-                        <option key={'qty-option-' + i} value={i + 1}>
-                          {i + 1}
-                        </option>
-                      ))}
-                    </select>
+                  {canSale ? (
+                    <>
+                      <div className="input-holder-sbs">
+                        <select
+                          id="quantity"
+                          style={{ border: '1px solid #ddd', borderRadius: '4px' }}
+                          onChange={(e) => {
+                            setSelectedQty(e.currentTarget.selectedIndex + 1)
+                          }}
+                        >
+                          {Array.from({ length: generalSettings.max_cart_items }, (_, i) => (
+                            <option key={'qty-option-' + i} value={i + 1}>
+                              {i + 1}
+                            </option>
+                          ))}
+                        </select>
 
-                    <button className="hoverable">Comprar agora</button>
-                  </div>
-                  <button
-                    className="hoverable"
-                    id="addToCartBtn"
-                    style={{ background: 'rgba(65,137,230,.15)', color: '#3483fa', width: '100%', marginTop: '8px' }}
-                    onClick={addToCart}
-                  >
-                    Adicionar ao carrinho
-                  </button>
+                        <button className="hoverable">Comprar agora</button>
+                      </div>
+                      <button
+                        className="hoverable"
+                        id="addToCartBtn"
+                        style={{ background: 'rgba(65,137,230,.15)', color: '#3483fa', width: '100%', marginTop: '8px' }}
+                        onClick={addToCart}
+                      >
+                        Adicionar ao carrinho
+                      </button>
+                    </>
+                  ) : (
+                    <p style={{ padding: '10px', textAlign: 'center', border: '1px solid red', borderRadius: '5px' }}>
+                      Produto indisponível no momento.
+                    </p>
+                  )}
                 </div>
 
                 <div className="sell-box-payment-conditions">
@@ -457,7 +466,7 @@ const ProductPage: React.FC = () => {
                           </ul>
                           <span>Ver parcelas</span>
                         </>,
-                        <div key={'accord-panel'}>{paymentConditions.structured}</div>,
+                        <div key={'accord-panel'}>{canSale ? paymentConditions.structured : 'Produto indisponível'}</div>,
                         { groupName: 'parcelas', buttonClass: 'parcelas-accord', panelClass: 'parcelsgroup', arrowRight: true },
                       ],
                     ]}
@@ -507,16 +516,16 @@ const ProductPage: React.FC = () => {
                     <li>
                       <span style={{ color: '#3483fa' }}>
                         <CheckIcon />
-                        Devolução grátis
+                        Compra garantida
                       </span>
-                      <p>Se você não gostou ou teve algum problema, garantimos a troca ou reembolso dentro de 7 dias.</p>
+                      <p>Receba o produto que está esperando ou devolvemos o seu dinheiro.</p>
                     </li>
                     <li>
                       <span style={{ color: '#3483fa' }}>
                         <CheckIcon />
-                        Compra garantida
+                        Devolução grátis
                       </span>
-                      <p>Receba o produto que está esperando ou devolvemos o seu dinheiro.</p>
+                      <p>Se você não gostou ou teve algum problema, garantimos a troca ou reembolso dentro de 7 dias.</p>
                     </li>
                   </ul>
                 </div>

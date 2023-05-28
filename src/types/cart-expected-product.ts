@@ -23,6 +23,7 @@ export interface ExpectedCartItem {
   width: number
   height: number
   weight: number
+  can_sale: boolean
 }
 
 interface Variation {

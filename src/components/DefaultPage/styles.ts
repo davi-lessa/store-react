@@ -6,7 +6,7 @@ export const Container = styled.div`
   display: grid;
   grid-template-rows: min-content min-content auto;
 `
-export const Content = styled.div`
+export const Content = styled.main`
   width: 100%;
   /* max-width: var(--desktop-max-width); */
   margin: 0 auto;

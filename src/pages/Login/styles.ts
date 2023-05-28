@@ -42,6 +42,7 @@ export const LoginWrapper = styled.div`
 
   @media screen and (max-width: 922px) {
     width: 100%;
+    max-width: 550px;
   }
 `
 

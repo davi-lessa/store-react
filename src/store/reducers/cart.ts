@@ -81,7 +81,10 @@ const cartSlice = createSlice({
           length,
           width,
           weight,
+          can_sale,
         } = currentSKU
+
+        if (!can_sale) return currentState
 
         currentState.items.push({
           allow_sell_without_customization,
@@ -106,6 +109,7 @@ const cartSlice = createSlice({
           width,
           height,
           length,
+          can_sale,
         })
       }
     },

@@ -164,6 +164,7 @@ export const GlobalStyle = styled.createGlobalStyle`
     font-size: 10.72px;
   }
   a {
-    color: inherit;
+    color: unset;
+    text-decoration: none;
   }
 `

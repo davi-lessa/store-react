@@ -6,7 +6,6 @@ export const Container = styled.div`
 
   background: var(--bg-color);
   font-family: 'Saira Condensed', 'Inter', 'Segoe UI', sans-serif;
-
   border-bottom: 1px solid #e2e2e2;
 `
 
@@ -17,8 +16,10 @@ export const Content = styled.div`
 
   height: 100%;
 
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  /* justify-content: space-between; */
   align-items: center;
   padding: 0 7%;
   /* border-bottom: 1px solid ; */
@@ -30,7 +31,7 @@ export const Content = styled.div`
   h1 {
     display: inline-block;
     user-select: none;
-    margin-left: 8px;
+    margin-left: 5px;
     font-weight: bold;
   }
 `
@@ -82,7 +83,17 @@ export const AccountBtn = styled.button`
   }
 `
 
-export const LeftSide = styled.div``
+export const LeftSide = styled.div`
+  display: flex;
+  align-items: center;
+
+  h1 {
+    width: max-content;
+  }
+`
+
+export const Center = styled.div``
+
 export const RightSide = styled.div`
   display: flex;
   gap: 12px;
@@ -92,5 +103,11 @@ export const RightSide = styled.div`
     margin-right: 7px;
     font-weight: bold;
     transition: all 0.25s ease;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
   }
+`
+
+export const MenuButton = styled.button`
+  background-color: transparent;
+  margin-right: 10px;
 `

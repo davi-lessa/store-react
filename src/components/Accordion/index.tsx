@@ -37,7 +37,6 @@ const Accordion: React.FC<Props> = (props: Props) => {
     }
 
     const panel = caller.nextElementSibling as HTMLElement
-    console.log(panel)
     if (!panel || !panel.classList.contains('dlv_acc_panel')) return
     caller.classList.toggle('active')
     panel.classList.toggle('active')

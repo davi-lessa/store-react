@@ -6,6 +6,7 @@ const apiRoutes = {
   productBySlug: (product_slug: string) => `products?slug=${product_slug}`,
   featuredProductsByCat: (cats: string[]) => `product/featured?cats=${encodeURI(JSON.stringify(cats))}`,
   shippingCalc: 'minoxfreight',
+  menu: 'categories/menu',
 }
 
 export { apiRequest, apiRoutes }

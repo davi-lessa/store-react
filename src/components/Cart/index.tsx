@@ -7,15 +7,15 @@ import { RiShoppingCart2Line as CartIcon, RiCloseFill as CloseIcon, RiShoppingBa
 import { HiPlusSm as PlusIcon, HiMinusSm as MinusIcon } from 'react-icons/hi'
 import Balancer from 'react-wrap-balancer'
 
-import { useQuery } from 'react-query'
-import axios from 'axios'
+// import { useQuery } from 'react-query'
+// import axios from 'axios'
 
 import { RootState } from 'store'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { ProductItem } from 'types/product.item'
 import { actions as cartActions } from 'store/reducers/cart'
 import { ExpectedCartItem } from 'types/cart-expected-product'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { getBuyLink } from 'utils/cart'
 
 const Cart: React.FC = () => {

@@ -1,11 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = { featuredCategories: [] }
+const initialState = { menuOpen: false }
 
-const productSlice = createSlice({
+const commonSlice = createSlice({
   name: 'common',
-  initialState: {},
-  reducers: {},
+  initialState,
+  reducers: {
+    closeMenu: (currentState) => {
+      currentState.menuOpen = false
+    },
+    openMenu: (currentState) => {
+      currentState.menuOpen = true
+    },
+  },
 })
 
-export default productSlice
+export default commonSlice
+export const actions = commonSlice.actions

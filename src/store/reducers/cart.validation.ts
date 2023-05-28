@@ -85,6 +85,7 @@ const ItemSchema = z.object({
   width: z.number(),
   height: z.number(),
   weight: z.number(),
+  can_sale: z.boolean(),
 })
 
 export const expectedCartArraySchema = z.array(ItemSchema)

@@ -29,10 +29,10 @@ const LoginPage: React.FC = () => {
       })
       .catch((error) => {
         dispatch(authActions.logout())
-        const errorCode = error.code
-        const errorMessage = error.message
-        const email = error.customData.email
-        const credential = GoogleAuthProvider.credentialFromError(error)
+        // const errorCode = error.code
+        // const errorMessage = error.message
+        // const email = error.customData.email
+        // const credential = GoogleAuthProvider.credentialFromError(error)
       })
   }
 
@@ -43,8 +43,8 @@ const LoginPage: React.FC = () => {
         window.localStorage.setItem('disposableMail', userMail)
       })
       .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
+        // const errorCode = error.code
+        // const errorMessage = error.message
       })
   }
 
