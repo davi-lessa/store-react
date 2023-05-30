@@ -10,11 +10,14 @@ import { useQuery } from 'react-query'
 import { FeaturedCat } from 'types/featured.cats'
 import Balancer from 'react-wrap-balancer'
 import { apiRequest, apiRoutes } from 'api'
-import { flickityOptions } from 'utils/flickity.options'
 import { motion } from 'framer-motion'
 import { List } from 'react-content-loader'
 import { RootState } from 'store'
 import { useSelector } from 'react-redux'
+
+import 'swiper/swiper.min.css'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper'
 
 const Home: React.FC = () => {
   const menuCategories = useSelector((state: RootState) => state.common.menuCategories)
@@ -22,7 +25,7 @@ const Home: React.FC = () => {
   const { data: featuredCatsQuery } = useQuery(
     'featuredCats',
     async () => {
-      const req = await apiRequest.get<{ data: FeaturedCat[] }>(apiRoutes.featuredProductsByCat(menuCategories.map((i) => String(i.id))))
+      const req = await apiRequest.get<{ data: FeaturedCat[] }>(apiRoutes.featuredProductsByCat(menuCategories.map((mc) => mc.id).join(',')))
       return req.data
     },
     { staleTime: 10 * 60 * 5000, enabled: !!menuCategories.length }
@@ -30,18 +33,6 @@ const Home: React.FC = () => {
 
   // Fixing drag and click bug
   const navigate = useNavigate()
-  const sliddering = useRef(false)
-  const flickityHandler = (e: any) => {
-    // let downTimeout: number
-
-    e?._events?.activate.push(() => {
-      sliddering.current = false
-    })
-    e?._events?.select?.push(() => {
-      sliddering.current = true
-      setTimeout(() => (sliddering.current = false), 800)
-    })
-  }
 
   function renderCategories(categories: FeaturedCat[]) {
     const catsTypped: FeaturedCat[] = categories
@@ -53,28 +44,33 @@ const Home: React.FC = () => {
           animate={{ opacity: 1, transition: { duration: 0.3, delay: 0.4 } }}
           exit={{ opacity: 0 }}
           style={{
-            minHeight: '300px',
+            minHeight: '350px',
           }}
           key={'featured-' + category.catName}
         >
-          <div className="featured-cat">
-            <div className="cat-title">
-              <h2 className="title">{category?.products?.[0]?.categories?.data?.[0]?.name || category.catName}</h2>
-              <a className="see-all show-arrow" href={'/categorias/' + category.catId + '/' + category.catName.split(' ').join('-').toLowerCase()}>
-                Ver todos
-              </a>
-            </div>
-            <hr style={{ marginBottom: '10px' }} />
-
-            <Flickity options={{ ...flickityOptions }} className="slider" flickityRef={flickityHandler}>
-              {renderProducts(category.products)}
-            </Flickity>
+          <div className="cat-title">
+            <h2 className="title">{category?.products?.[0]?.categories?.data?.[0]?.name || category.catName}</h2>
+            <a className="see-all show-arrow" href={'/categorias/' + category.catId + '/' + category.catName.split(' ').join('-').toLowerCase()}>
+              Ver todos
+            </a>
           </div>
+
+          <hr style={{ marginBottom: '10px' }} />
+
+          <Swiper
+            className="swp-main-images"
+            pagination={{ dynamicBullets: true, clickable: true }}
+            modules={[Pagination]}
+            slidesPerView={'auto'}
+            spaceBetween={15}
+          >
+            {renderProducts(category.products)}
+          </Swiper>
         </motion.div>
       )
     })
 
-    return <div className="category">{mappedCats}</div>
+    return <>{mappedCats}</>
   }
 
   function renderProducts(items: FeaturedCat['products']) {
@@ -89,15 +85,15 @@ const Home: React.FC = () => {
       const isFreeShipping = item.shipping_price == '0.00' ? true : false
 
       return (
-        <div className="wrapper" key={'slider-' + item?.skus?.data?.[0]?.sku + item?.slug}>
+        <SwiperSlide key={'slider-' + item?.skus?.data?.[0]?.sku + item?.slug} className="slide">
           <SliderProductHolder
             data-discount={discount ? discount + '% OFF' : null}
             className="product"
-            onClick={() => !sliddering.current && navigate('/produto/' + item.slug)}
+            onClick={() => navigate('/produto/' + item.slug)}
           >
-            <Link to={'/produto/' + item.slug} style={{ pointerEvents: 'none' }} className="img-holder-link">
+            <div className="img-holder-link">
               <img src={item.firstImage.data.medium.url} alt="" draggable="false" width={1} height={1} style={{ height: '100%', width: '100%' }} />
-            </Link>
+            </div>
 
             <div className="description">
               <Link to={'/produto/' + item.slug}>
@@ -125,7 +121,7 @@ const Home: React.FC = () => {
               )}
             </div>
           </SliderProductHolder>
-        </div>
+        </SwiperSlide>
       )
     })
   }

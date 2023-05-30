@@ -183,7 +183,7 @@ export const Products = styled.div`
     overflow: hidden;
     position: relative;
     cursor: grab;
-    min-height: 155px;
+    min-height: 170px;
 
     padding-bottom: 10px;
 
@@ -222,16 +222,6 @@ export const Products = styled.div`
     outline: 1.5px solid #ff7200;
     box-shadow: 0 0 16px -5px #00000066;
     z-index: 10;
-  }
-
-  .product {
-    min-height: 150px;
-    &:hover .img-holder-link::after {
-      opacity: 1;
-    }
-  }
-  .product::before {
-    top: 12px;
   }
 
   .img-holder-link {
@@ -405,9 +395,18 @@ export const SliderContainer = styled.div`
   margin: 0 auto;
   overflow: hidden;
 
-  @media screen and (max-width: 768px) {
+  .slide {
+    width: auto;
+
+    &:hover .img-holder-link::after {
+      opacity: 1;
+    }
+  }
+
+  @media screen and (max-width: 922px) {
     padding: 0;
-    .wrapper:first-of-type {
+
+    .slide:first-of-type {
       padding-left: 25px !important;
     }
   }
