@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { MenuAPIResponse } from 'components/Header'
 
-const initialState = { menuOpen: false }
+const initialState: { menuCategories: MenuAPIResponse['data']; menuOpen: boolean } = { menuOpen: false, menuCategories: [] }
 
 const commonSlice = createSlice({
   name: 'common',
@@ -11,6 +12,9 @@ const commonSlice = createSlice({
     },
     openMenu: (currentState) => {
       currentState.menuOpen = true
+    },
+    setMenuCategories: (currentState, { payload }: { payload: MenuAPIResponse['data'] }) => {
+      currentState.menuCategories = [...payload]
     },
   },
 })

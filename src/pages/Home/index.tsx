@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Flickity from 'react-flickity-component'
 import 'assets/css/flickity.min.css'
 import { Container, SliderProductHolder, SliderContainer, Products } from './styles'
@@ -13,33 +13,26 @@ import { apiRequest, apiRoutes } from 'api'
 import { flickityOptions } from 'utils/flickity.options'
 import { motion } from 'framer-motion'
 import { List } from 'react-content-loader'
+import { RootState } from 'store'
+import { useSelector } from 'react-redux'
 
 const Home: React.FC = () => {
-  const featuredCatsQuery = useQuery(
+  const menuCategories = useSelector((state: RootState) => state.common.menuCategories)
+
+  const { data: featuredCatsQuery } = useQuery(
     'featuredCats',
     async () => {
-      const req = await apiRequest.get<FeaturedCat[]>(
-        apiRoutes.featuredProductsByCat([
-          'minoxidil',
-          'utilidades-veiculos',
-          'saude-beleza',
-          'pescaria',
-          'utilidades',
-          'infantil',
-          'oculos',
-          'esportes',
-        ])
-      )
+      const req = await apiRequest.get<{ data: FeaturedCat[] }>(apiRoutes.featuredProductsByCat(menuCategories.map((i) => String(i.id))))
       return req.data
     },
-    { staleTime: 10 * 60 * 5000 }
+    { staleTime: 10 * 60 * 5000, enabled: !!menuCategories.length }
   )
 
   // Fixing drag and click bug
   const navigate = useNavigate()
   const sliddering = useRef(false)
   const flickityHandler = (e: any) => {
-    let downTimeout: number
+    // let downTimeout: number
 
     e?._events?.activate.push(() => {
       sliddering.current = false
@@ -62,12 +55,12 @@ const Home: React.FC = () => {
           style={{
             minHeight: '300px',
           }}
-          key={'featured-' + category.category}
+          key={'featured-' + category.catName}
         >
           <div className="featured-cat">
             <div className="cat-title">
-              <h2 className="title">{category?.products?.[0]?.categories?.data?.[0]?.name || category.category}</h2>
-              <a className="see-all show-arrow" href="/categorias/utilidades-veiculos">
+              <h2 className="title">{category?.products?.[0]?.categories?.data?.[0]?.name || category.catName}</h2>
+              <a className="see-all show-arrow" href={'/categorias/' + category.catId + '/' + category.catName.split(' ').join('-').toLowerCase()}>
                 Ver todos
               </a>
             </div>

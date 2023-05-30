@@ -76,7 +76,7 @@ const ProductPage: React.FC = () => {
       const req = await apiRequest.get<ProductAPIResponse>(apiRoutes.productBySlug(slug))
       return req.data
     },
-    { staleTime: 10 * 1000 * 60 }
+    { staleTime: 7 * 1000 * 60 }
   )
 
   const fetchedProduct = productData && productData.data[0]
@@ -211,7 +211,9 @@ const ProductPage: React.FC = () => {
             <div key={'rev-star' + i} className="star"></div>
           ))}
           {Number(avgReviews?.toFixed(2).split('.')[1]) > 0 ? <div key="rev-half-star" className="half-star"></div> : ''}
-          {avgReviews < 5 ? Array.from({ length: Math.floor(5 - avgReviews) }, () => <div key="rev-empty-star" className="empty-star"></div>) : ''}
+          {avgReviews < 5
+            ? Array.from({ length: Math.floor(5 - avgReviews) }, (s, i) => <div key={'rev-empty-star' + i} className="empty-star"></div>)
+            : ''}
         </div>
         <span className="rate-qty-full">
           <span className="rate-qty">{productItem?.extras?.data?.total_reviews}</span>{' '}
@@ -437,7 +439,16 @@ const ProductPage: React.FC = () => {
                       </button>
                     </>
                   ) : (
-                    <p style={{ padding: '10px', textAlign: 'center', border: '1px solid red', borderRadius: '5px' }}>
+                    <p
+                      style={{
+                        padding: '10px',
+                        textAlign: 'center',
+                        border: '1px solid grey',
+                        color: 'black',
+                        fontWeight: '500',
+                        borderRadius: '5px',
+                      }}
+                    >
                       Produto indisponível no momento.
                     </p>
                   )}
@@ -466,7 +477,7 @@ const ProductPage: React.FC = () => {
                           </ul>
                           <span>Ver parcelas</span>
                         </>,
-                        <div key={'accord-panel'}>{canSale ? paymentConditions.structured : 'Produto indisponível'}</div>,
+                        <div key={'accord-panel'}>{canSale ? paymentConditions.structured : 'Não disponível'}</div>,
                         { groupName: 'parcelas', buttonClass: 'parcelas-accord', panelClass: 'parcelsgroup', arrowRight: true },
                       ],
                     ]}
@@ -478,37 +489,43 @@ const ProductPage: React.FC = () => {
                       Pix
                     </span>
                     <span>
-                      R$&nbsp;
-                      {(
-                        Number(currentSKU?.price_discount) &&
-                        (Number(currentSKU?.price_discount) * (100 - generalSettings.payment_pix_discount_percent)) / 100
-                      )
-                        ?.toFixed(2)
-                        ?.replace('.', ',')}
-                      {generalSettings.payment_pix_discount_percent ? (
-                        <span style={{ fontSize: '.85em', marginLeft: '3px', color: 'forestgreen' }}>
-                          -{generalSettings.payment_pix_discount_percent}%
-                        </span>
+                      {canSale ? (
+                        <div>
+                          R$&nbsp;
+                          {(
+                            Number(currentSKU?.price_discount) &&
+                            (Number(currentSKU?.price_discount) * (100 - generalSettings.payment_pix_discount_percent)) / 100
+                          )
+                            ?.toFixed(2)
+                            ?.replace('.', ',')}
+                          {generalSettings.payment_pix_discount_percent ? (
+                            <span style={{ fontSize: '.85em', marginLeft: '3px', color: 'forestgreen' }}>
+                              -{generalSettings.payment_pix_discount_percent}%
+                            </span>
+                          ) : (
+                            ''
+                          )}
+                        </div>
                       ) : (
-                        ''
+                        'Não disponível'
                       )}
                     </span>
                   </button>
                 </div>
 
-                {/* {shippingBlock} */}
-
                 <div className="sell-box-shipping-calc">
-                  <ShippingCalculator
-                    itemInfo={{
-                      height: currentSKU.height,
-                      width: currentSKU.width,
-                      weight: currentSKU.weight,
-                      length: currentSKU.length,
-                      quantity: selectedQty,
-                      id: String(currentSKU.id),
-                    }}
-                  ></ShippingCalculator>
+                  {canSale && (
+                    <ShippingCalculator
+                      itemInfo={{
+                        height: currentSKU.height,
+                        width: currentSKU.width,
+                        weight: currentSKU.weight,
+                        length: currentSKU.length,
+                        quantity: selectedQty,
+                        id: String(currentSKU.id),
+                      }}
+                    ></ShippingCalculator>
+                  )}
                 </div>
 
                 <div className="sell-box-warranties">

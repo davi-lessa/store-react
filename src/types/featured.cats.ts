@@ -1,5 +1,6 @@
 export interface FeaturedCat {
-  category: string
+  catName: string
+  catId: string
   products: FeaturedItem[]
 }
 

@@ -40,6 +40,12 @@ const cartSlice = createSlice({
     setCartClosed: (currentState) => {
       currentState.isCartOpen = false
     },
+    updateItems: (currentState, { payload }: { payload: ExpectedCartItem[] }) => {
+      const newItems = currentState.items
+        .map((item) => ({ ...item, ...payload.find((i) => i.id === item.id && item.product_id === i.product_id) }))
+        .filter((i) => i.can_sale)
+      currentState.items = newItems
+    },
     removeItem: (currentState, { payload }: { payload: { itemId: number } }) => {
       currentState.items = currentState.items.filter((item) => item.id != payload.itemId)
     },

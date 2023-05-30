@@ -10,6 +10,7 @@ interface Props {
 export interface MenuCategoryItem {
   slug: string
   name: string
+  catId: number
 }
 
 const Categories: React.FC<Props> = (props: Props) => {
@@ -20,7 +21,7 @@ const Categories: React.FC<Props> = (props: Props) => {
           return (
             <li key={`menu-item-${item.slug}`}>
               <span>
-                <Link to={'/categoria/' + item.slug}>{item.name}</Link>
+                <Link to={'/categorias/' + item.catId + '/' + item.slug}>{item.name}</Link>
               </span>
             </li>
           )

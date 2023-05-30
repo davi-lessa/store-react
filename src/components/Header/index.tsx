@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { AccountBtn, Advice, CartBtn, Center, Container, Content, LeftSide, MenuButton, RightSide } from './styles'
 import { Link, useNavigate } from 'react-router-dom'
@@ -19,7 +19,7 @@ interface HeaderProps {
   borderColor?: string
 }
 
-interface MenuAPIResponse {
+export interface MenuAPIResponse {
   data: MenuItem[]
   meta: any
 }
@@ -28,6 +28,7 @@ interface MenuItem {
   name: string
   order: number
   slug: string
+  id: number
 }
 
 const Header: React.FC<HeaderProps> = ({ borderColor }: HeaderProps) => {
@@ -35,6 +36,7 @@ const Header: React.FC<HeaderProps> = ({ borderColor }: HeaderProps) => {
   const authSelector: AuthStorage = useSelector((state: RootState) => state.auth)
 
   const navigate = useNavigate()
+
   const { data: menuItems } = useQuery(
     'menu-items',
     async () => {
@@ -44,6 +46,14 @@ const Header: React.FC<HeaderProps> = ({ borderColor }: HeaderProps) => {
     },
     { staleTime: 12 * 60 * 1000 * 60 }
   )
+
+  useEffect(() => {
+    null
+  }, [])
+
+  useEffect(() => {
+    menuItems?.data?.length && dispatch(commonActions.setMenuCategories(menuItems.data))
+  }, [menuItems])
 
   function getUser() {
     try {
@@ -102,10 +112,10 @@ const Header: React.FC<HeaderProps> = ({ borderColor }: HeaderProps) => {
 
       <div>
         {menuItems?.data && window.innerWidth > 922 ? (
-          <Categories items={menuItems?.data.map((i) => ({ slug: i.slug, name: i.name }))}></Categories>
+          <Categories items={menuItems?.data.map((i) => ({ slug: i.slug, name: i.name, catId: i.id }))}></Categories>
         ) : (
           menuItems?.data && (
-            <Menu isLogged={authSelector.isLogged} categoryItems={menuItems?.data.map((i) => ({ slug: i.slug, name: i.name }))}></Menu>
+            <Menu isLogged={authSelector.isLogged} categoryItems={menuItems?.data.map((i) => ({ slug: i.slug, name: i.name, catId: i.id }))}></Menu>
           )
         )}
       </div>

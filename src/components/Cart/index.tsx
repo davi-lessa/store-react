@@ -17,6 +17,8 @@ import { actions as cartActions } from 'store/reducers/cart'
 import { ExpectedCartItem } from 'types/cart-expected-product'
 // import { useNavigate } from 'react-router-dom'
 import { getBuyLink } from 'utils/cart'
+import { apiRequest, apiRoutes } from 'api'
+import { useQuery } from 'react-query'
 
 const Cart: React.FC = () => {
   const cartContainer = useRef<HTMLDivElement>(null)
@@ -25,25 +27,33 @@ const Cart: React.FC = () => {
   const cartData = useSelector((state: RootState) => state.cart, shallowEqual)
   const dispatch = useDispatch()
 
-  // const { data, isFetching, refetch } = useQuery(
-  //   'prices',
-  //   async () => {
-  //     console.log('Fetched')
-  //     const req = await axios.get('https://tests.gdsv.workers.dev/time')
-  //     const res = req.data
-  //     return res
-  //   },
-  //   {
-  //     refetchOnWindowFocus: true,
-  //     staleTime: 1000,
-  //   }
-  // )
-
-  // useEffect(() => console.log(data), [data])
-
-  function addToCart(item: ProductItem, qty: number) {
-    dispatch(cartActions.addItem({ ...item, qty }))
+  interface CartCheckAPIResponse {
+    data: ExpectedCartItem[]
   }
+
+  const { data: cartChecked } = useQuery(
+    'cart-check-' + cartData.items.map((i) => i.product_id + i.id).join('-'),
+    async () => {
+      const skuIdsQuery = cartData.items.map((i) => i.id)
+      const productIdsQuery = cartData.items.map((i) => i.product_id)
+
+      const req = await apiRequest.get<CartCheckAPIResponse>(
+        apiRoutes.cartCheck + '?sku_ids=' + encodeURI(JSON.stringify(skuIdsQuery)) + '&product_ids=' + encodeURI(JSON.stringify(productIdsQuery))
+      )
+      const res = req.data
+      return res
+    },
+    {
+      refetchOnWindowFocus: true,
+      staleTime: 3 * 1000 * 60,
+      enabled: !!cartData.items.length,
+    }
+  )
+
+  useEffect(() => {
+    if (!cartChecked?.data?.length) return
+    dispatch(cartActions.updateItems(cartChecked?.data))
+  }, [cartChecked])
 
   function removeFromCart(itemEl: HTMLElement | null, itemId: number) {
     if (!itemEl) return
