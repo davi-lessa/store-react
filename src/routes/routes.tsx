@@ -7,7 +7,6 @@ import Header from 'components/Header'
 export default function AppRouter() {
   return (
     <Router>
-      <Header></Header>
       <Cart></Cart>
       <AnimatePresence>
         <AnimatedRoutes></AnimatedRoutes>

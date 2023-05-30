@@ -123,4 +123,4 @@ const Header: React.FC<HeaderProps> = ({ borderColor }: HeaderProps) => {
   )
 }
 
-export default Header
+export default React.memo(Header)

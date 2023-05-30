@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react'
-import Flickity from 'react-flickity-component'
-import 'assets/css/flickity.min.css'
+import React from 'react'
 import { Container, SliderProductHolder, SliderContainer, Products } from './styles'
 import AnimatedBanner from 'components/AnimatedBanner'
+
+import 'swiper/swiper.min.css'
 
 import { Link, useNavigate } from 'react-router-dom'
 import { useQuery } from 'react-query'
@@ -15,7 +15,6 @@ import { List } from 'react-content-loader'
 import { RootState } from 'store'
 import { useSelector } from 'react-redux'
 
-import 'swiper/swiper.min.css'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper'
 
@@ -63,6 +62,7 @@ const Home: React.FC = () => {
             modules={[Pagination]}
             slidesPerView={'auto'}
             spaceBetween={15}
+            speed={200}
           >
             {renderProducts(category.products)}
           </Swiper>
@@ -150,7 +150,6 @@ const Home: React.FC = () => {
                   gap: '15px',
                 }}
               >
-                <h2 style={{ fontSize: '1.75em' }}>Mais vendidos por categoria</h2>
                 <List style={{ maxWidth: '300px' }}></List>
                 <List style={{ maxWidth: '300px' }}></List>
                 <List style={{ maxWidth: '300px' }}></List>

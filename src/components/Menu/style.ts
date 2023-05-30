@@ -18,6 +18,11 @@ export const Container = styled.div`
   overflow-y: auto;
   width: 100%;
   left: -100%;
+  font-family: 'ML';
+
+  h3 {
+    font-weight: bold;
+  }
 
   &.opened {
     transition: all 0.35s ease;
@@ -72,8 +77,8 @@ export const Container = styled.div`
           gap: 6px;
           align-items: center;
           line-height: 1.1em;
-          font-weight: 500;
-          font-size: 0.95em;
+          font-weight: 600;
+          font-size: 1em;
           color: #4e5862;
         }
       }

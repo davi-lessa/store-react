@@ -23,6 +23,10 @@ const Menu: React.FC<Props> = ({ categoryItems, isLogged }: Props) => {
   const location = useLocation()
 
   useEffect(() => {
+    isMenuOpen ? document.body.classList.add('locked') : document.body.classList.remove('locked')
+  }, [isMenuOpen])
+
+  useEffect(() => {
     if (isMenuOpen && location.pathname != '/auth/logoff') dispatch(commonActions.closeMenu())
   }, [location])
 

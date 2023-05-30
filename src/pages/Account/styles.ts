@@ -2,14 +2,16 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   height: 100%;
+  min-height: 75vh;
   max-width: var(--desktop-max-width);
   margin: 0 auto;
-  padding: 25px 7%;
+  padding: 50px 7%;
 
   display: grid;
-  grid-template-areas: 'header header' 'navmenu content';
-  grid-template-rows: 50px 1fr;
+  grid-template-areas: 'header content' 'navmenu content';
+  grid-template-rows: max-content 1fr;
   grid-template-columns: 200px 1fr;
+  gap: 0 35px;
 
   .nav-menu-holder {
     grid-area: navmenu;

@@ -47,6 +47,7 @@ export const Products = styled.div`
   margin: 0 auto;
   opacity: 0;
   animation: slowShow 0.15s linear forwards 0.7s;
+  padding-bottom: 50px;
 
   .flickity-page-dots {
     bottom: 12px !important;
@@ -225,7 +226,7 @@ export const Products = styled.div`
   }
 
   .img-holder-link {
-    border-bottom: 2px solid #ededed;
+    border-bottom: 1px solid #f2f3f5;
     grid-area: img;
     position: relative;
     width: 100%;
@@ -391,7 +392,7 @@ export const BigProduct = styled.div`
 `
 
 export const SliderContainer = styled.div`
-  padding: 0 100px;
+  padding: 0 10%;
   margin: 0 auto;
   overflow: hidden;
 
@@ -425,6 +426,8 @@ export const SliderProductHolder = styled.div`
   flex-basis: 100%;
   position: relative;
   user-select: none;
+  letter-spacing: 0.25px;
+  font-family: 'ML';
 
   @media screen and (max-width: 768px) {
     .description {
