@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const ProductContainer = styled.div`
   padding: 0 5%;
   min-height: 500px;
-  background-color: #f2f3f5;
+  background-color: var(--gray-bluish);
   height: 100%;
 
   h1 {
@@ -799,6 +799,66 @@ export const RelatedProducts = styled.div`
         outline: 1.5px solid #ff7200;
         box-shadow: 0 0 16px -5px #00000066;
         z-index: 10;
+      }
+    }
+  }
+`
+
+export const Specs = styled.div`
+  padding: 25px;
+  max-width: 600px;
+
+  @media screen and (max-width: 922px) {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  h2 {
+    margin-bottom: 16px;
+  }
+
+  .specs-content {
+    display: grid;
+    grid-gap: 1px;
+    grid-template-columns: minmax(100px, 125px) 1fr;
+    place-items: center;
+    grid-auto-rows: minmax(50px, auto);
+    margin-top: 5px;
+    background: #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+
+    span {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 8px 15px;
+      background: #f5f5f5;
+      color: black;
+
+      &:nth-of-type(odd) {
+        background: #eee;
+      }
+
+      &.pos-impar-esq {
+        box-shadow: 5px 0 2px -1px #00000004;
+        z-index: 2;
+        user-select: none;
+        font-weight: 500;
+      }
+
+      &.pos-par-esq {
+        background: #f8f8f8 !important;
+        box-shadow: 5px 0 2px -1px #00000004;
+        z-index: 2;
+        user-select: none;
+        font-weight: 500;
+      }
+
+      &.pos-par-dir {
+        background: #fbfbfb !important;
       }
     }
   }

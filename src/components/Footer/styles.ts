@@ -26,14 +26,14 @@ export const FooterList = styled.ul`
   h3 {
     letter-spacing: 0.8px;
     margin-bottom: 8px;
-    font-size: 1.25em;
+    font-size: 1.15em;
     font-weight: 500;
     color: black;
   }
 
   li {
     line-height: 1.25;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.3px;
 
     p {
       display: flex;

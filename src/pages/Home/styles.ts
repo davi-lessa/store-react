@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   overflow: hidden;
-  background-color: #f2f3f5;
+  background-color: var(--gray-bluish);
 
   .slider {
     max-width: 100vw;
@@ -184,7 +184,8 @@ export const Products = styled.div`
     overflow: hidden;
     position: relative;
     cursor: grab;
-    min-height: 170px;
+    min-height: 180px;
+    line-height: 1.35em;
 
     padding-bottom: 10px;
 
@@ -226,7 +227,7 @@ export const Products = styled.div`
   }
 
   .img-holder-link {
-    border-bottom: 1px solid #f2f3f5;
+    border-bottom: 1px var(--gray-bluish);
     grid-area: img;
     position: relative;
     width: 100%;
@@ -431,7 +432,7 @@ export const SliderProductHolder = styled.div`
 
   @media screen and (max-width: 768px) {
     .description {
-      min-height: 155px;
+      min-height: 165px;
     }
 
     padding: 0;

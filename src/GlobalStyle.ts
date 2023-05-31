@@ -9,33 +9,10 @@ export const GlobalStyle = styled.createGlobalStyle`
     --desktop-max-width: 1700px;
 
     --primary-color: #0063db;
-    --primary-color-lighter: #deebfa;
-    --primary-color-darker: #085bbf;
-    --primary-color-contrast: white;
-    --primary-color-lighter-contrast: #0063db;
-    --primary-color-darker-contrast: white;
-
     --secondary-color: #9362ef;
-    --secondary-color-lighter: #fde2c0;
-    --secondary-color-lighter-contrast: #af00db;
-    --secondary-color-contrast: #fff;
-
-    --tertiary-color: #cc7a00;
-    --tertiary-color-lighter: #fde7c0;
-    --tertiary-color-contrast: white;
-    --tertiary-color-lighter-contrast: black;
-
-    /* Light mode */
-    --background-color-light: #fff;
-    --text-color-light: #4d4d4d;
-    --text-color-lighter: #7c7c7c;
-    --text-color-darker: #1f1f1f;
-
-    /* Dark mode */
-    --background-color-dark: #0a0a0a;
-    --text-color-dark: #fff;
-    --text-color-lighter: #bdbdbd;
-    --text-color-darker: #a3a3a3;
+    /* --gray-bluish: #eff4f5; */
+    /* --gray-bluish: #edf2f7; */
+    --gray-bluish: #f2f3f5;
 
     /* Sections */
     --section-title-fw: 600;

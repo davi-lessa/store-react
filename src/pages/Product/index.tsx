@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useRef, useState } from 'react'
 
-import { Description, PictureBox, ProductContainer, ProductContent, ProductMarginHolder, Selling } from './styles'
+import { Description, PictureBox, ProductContainer, ProductContent, ProductMarginHolder, Selling, Specs } from './styles'
 import { useQuery } from 'react-query'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { apiRequest, apiRoutes } from 'api'
@@ -139,7 +139,7 @@ const ProductPage: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        style={{ height: '100%', padding: '25px', background: '#f2f3f5' }}
+        style={{ height: '100%', padding: '25px', background: 'var(--gray-bluish)' }}
       >
         <ProductContainer>
           <ProductMarginHolder style={{ height: '100%' }}>
@@ -194,6 +194,45 @@ const ProductPage: React.FC = () => {
     return a + bValue * Number(bKey)
   }, 0)
   const avgReviews = Number((totalRate / fetchedProduct.extras?.data?.total_reviews || 0)?.toFixed(1))
+
+  function generateSpecs(texts: ProductAPIResponse['data'][0]['texts']['data']) {
+    const specsRegex = /<p>(.*?)\|(.*?)<\/p>/g
+
+    const specs = texts.specifications ? [...texts.specifications.matchAll(specsRegex)]?.map(([_, left, right]) => [left, right]) : []
+
+    // if (texts?.data?.specifications) {
+    //   specs += `
+    //       <hr style="margin-top: 25px">
+    //       <div class="html-specs">
+    //       <h2 class="mb15">Especificações</h2>
+    //       <div class="specs-content">`
+    //   const el = document.createElement('div')
+    //   el.innerHTML = texts?.data?.specifications
+    //   el.querySelectorAll('p').forEach((p, index) => {
+    //     const pContent = p?.innerHTML?.split('|')
+    //     specs += `<span class="pos-${index % 2 === 0 ? 'impar-esq' : 'par-esq'}">$</span><span class="pos-${
+    //       index % 2 === 0 ? 'impar-dir' : 'par-dir'
+    //     }">${pContent[1]}</span>`
+    //   })
+    //   specs += `</div></div>`
+    // }
+
+    return (
+      <Specs>
+        <hr style={{ marginTop: '25px' }} />
+
+        <h2 className="mb15">Especificações</h2>
+        <div className="specs-content">
+          {specs.map(([left, right], index) => (
+            <React.Fragment key={'spec-line-' + index}>
+              <span className={`pos-${index % 2 === 0 ? 'impar-esq' : 'par-esq'}`}>{left}</span>
+              <span className={`pos-${index % 2 === 0 ? 'impar-dir' : 'par-dir'}`}>{right}</span>
+            </React.Fragment>
+          ))}
+        </div>
+      </Specs>
+    )
+  }
 
   function generateRatingStars(productItem: ProductAPIResponse['data'][0]) {
     if (fetchedProduct?.extras?.data?.total_reviews == 0) return ''
@@ -559,7 +598,7 @@ const ProductPage: React.FC = () => {
                   ),
                 }}
               ></div>
-              {/* {specs} */}
+              {generateSpecs(productData.data[0].texts.data)}
               <div className="html-sizes">
                 <ul></ul>
               </div>
