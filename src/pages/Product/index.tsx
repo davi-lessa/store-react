@@ -197,25 +197,8 @@ const ProductPage: React.FC = () => {
 
   function generateSpecs(texts: ProductAPIResponse['data'][0]['texts']['data']) {
     const specsRegex = /<p>(.*?)\|(.*?)<\/p>/g
-
     const specs = texts.specifications ? [...texts.specifications.matchAll(specsRegex)]?.map(([_, left, right]) => [left, right]) : []
-
-    // if (texts?.data?.specifications) {
-    //   specs += `
-    //       <hr style="margin-top: 25px">
-    //       <div class="html-specs">
-    //       <h2 class="mb15">Especificações</h2>
-    //       <div class="specs-content">`
-    //   const el = document.createElement('div')
-    //   el.innerHTML = texts?.data?.specifications
-    //   el.querySelectorAll('p').forEach((p, index) => {
-    //     const pContent = p?.innerHTML?.split('|')
-    //     specs += `<span class="pos-${index % 2 === 0 ? 'impar-esq' : 'par-esq'}">$</span><span class="pos-${
-    //       index % 2 === 0 ? 'impar-dir' : 'par-dir'
-    //     }">${pContent[1]}</span>`
-    //   })
-    //   specs += `</div></div>`
-    // }
+    const measures = texts.measures ? [...texts.measures.matchAll(specsRegex)]?.map(([_, left, right]) => [left, right]) : []
 
     return (
       <Specs>
@@ -224,6 +207,16 @@ const ProductPage: React.FC = () => {
         <h2 className="mb15">Especificações</h2>
         <div className="specs-content">
           {specs.map(([left, right], index) => (
+            <React.Fragment key={'spec-line-' + index}>
+              <span className={`pos-${index % 2 === 0 ? 'impar-esq' : 'par-esq'}`}>{left}</span>
+              <span className={`pos-${index % 2 === 0 ? 'impar-dir' : 'par-dir'}`}>{right}</span>
+            </React.Fragment>
+          ))}
+        </div>
+
+        <h2 style={{ marginTop: '30px' }}>Medidas</h2>
+        <div className="specs-content">
+          {measures.map(([left, right], index) => (
             <React.Fragment key={'spec-line-' + index}>
               <span className={`pos-${index % 2 === 0 ? 'impar-esq' : 'par-esq'}`}>{left}</span>
               <span className={`pos-${index % 2 === 0 ? 'impar-dir' : 'par-dir'}`}>{right}</span>

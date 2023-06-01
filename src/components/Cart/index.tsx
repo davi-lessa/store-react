@@ -12,7 +12,6 @@ import Balancer from 'react-wrap-balancer'
 
 import { RootState } from 'store'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { ProductItem } from 'types/product.item'
 import { actions as cartActions } from 'store/reducers/cart'
 import { ExpectedCartItem } from 'types/cart-expected-product'
 // import { useNavigate } from 'react-router-dom'

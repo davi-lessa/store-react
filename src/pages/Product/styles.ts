@@ -611,59 +611,6 @@ export const Description = styled.div`
     }
     .html-specs {
       padding: 25px 35px 35px 35px;
-
-      .specs-content {
-        display: grid;
-        grid-gap: 1px;
-        grid-template-columns: minmax(100px, 125px) 1fr;
-        place-items: center;
-        grid-auto-rows: minmax(50px, auto);
-        /*ou 1fr se quiser todas do msm tamanho*/
-        margin-top: 5px;
-        background: #ddd;
-        border-radius: 6px;
-        overflow: hidden;
-        border: 1px solid #ddd;
-
-        @media screen and (max-width: 320px) {
-          grid-template-columns: 1fr 1.75fr !important;
-          padding: 25px 10px 35px 10px;
-
-          span {
-            word-break: break-word;
-            padding: 8px 5px;
-            font-size: 0.95em;
-          }
-        }
-
-        span {
-          height: 100%;
-          width: 100%;
-          display: flex;
-          align-items: center;
-          padding: 8px 15px;
-          background: #f5f5f5;
-
-          &:nth-of-type(odd) {
-            background: #eee;
-          }
-
-          &.pos-par-esq {
-            background: #f8f8f8 !important;
-            box-shadow: 5px 0 2px -1px #00000004;
-            z-index: 2;
-          }
-
-          &.pos-impar-esq {
-            box-shadow: 5px 0 2px -1px #00000004;
-            z-index: 2;
-          }
-
-          &.pos-par-dir {
-            background: #fbfbfb !important;
-          }
-        }
-      }
     }
 
     * {
@@ -820,7 +767,7 @@ export const Specs = styled.div`
   .specs-content {
     display: grid;
     grid-gap: 1px;
-    grid-template-columns: minmax(100px, 125px) 1fr;
+    grid-template-columns: minmax(125px, max-content) 1fr;
     place-items: center;
     grid-auto-rows: minmax(50px, auto);
     margin-top: 5px;
@@ -829,17 +776,29 @@ export const Specs = styled.div`
     overflow: hidden;
     border: 1px solid #ddd;
 
+    @media screen and (max-width: 320px) {
+      grid-template-columns: 1fr 1.75fr !important;
+      padding: 25px 10px 35px 10px;
+
+      span {
+        word-break: break-word;
+        padding: 8px 5px;
+        font-size: 0.95em;
+      }
+    }
+
     span {
       height: 100%;
       width: 100%;
       display: flex;
       align-items: center;
       padding: 8px 15px;
-      background: #f5f5f5;
+      background: var(--gray-bluish);
       color: black;
+      transition: background 0.25s ease;
 
       &:nth-of-type(odd) {
-        background: #eee;
+        background: #eaebec;
       }
 
       &.pos-impar-esq {
@@ -847,10 +806,17 @@ export const Specs = styled.div`
         z-index: 2;
         user-select: none;
         font-weight: 500;
+        background: var(--gray-bluish);
+      }
+      &.pos-impar-dir {
+        background: #fbfcfd !important;
+        &:hover {
+          background: lightgray !important;
+        }
       }
 
       &.pos-par-esq {
-        background: #f8f8f8 !important;
+        background: #fbfcfd !important;
         box-shadow: 5px 0 2px -1px #00000004;
         z-index: 2;
         user-select: none;
@@ -858,7 +824,10 @@ export const Specs = styled.div`
       }
 
       &.pos-par-dir {
-        background: #fbfbfb !important;
+        background: #fbfcfd !important;
+        &:hover {
+          background: lightgray !important;
+        }
       }
     }
   }

@@ -21,7 +21,7 @@ const LoginPage: React.FC = () => {
 
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(async (result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result)
         const token = credential?.accessToken
         const user = result.user
@@ -81,11 +81,6 @@ const LoginPage: React.FC = () => {
               <IconGoogle size={22} />
               Continuar com Google
             </LoginButton>
-
-            {/* <LoginButton onClick={signInWithGoogle} className="facebook">
-              <IconFacebook size={22} color="white" />
-              Continuar com Facebook
-            </LoginButton> */}
           </ButtonsWrapper>
           {/* <p>Dúvidas no acesso?</p> */}
         </LoginWrapper>
