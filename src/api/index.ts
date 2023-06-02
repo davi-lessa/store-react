@@ -6,7 +6,7 @@ const apiRequest = axios.create({ baseURL: generalSettings.worker_base_url })
 const apiRoutes = {
   productBySlug: (product_slug: string) => `product/${product_slug}`,
   featuredProductsByCat: (cats: string) => `product/featured?cats=${cats}`,
-  shippingCalc: 'minoxfreight',
+  shippingCalc: 'freight',
   menu: 'menu',
   cartCheck: 'cart-check',
 }
