@@ -1,5 +1,5 @@
 import { apiRequest, apiRoutes } from 'api'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 import queryClient from 'services/queryClient'
 import { z } from 'zod'

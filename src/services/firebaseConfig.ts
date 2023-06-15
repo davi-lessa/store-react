@@ -26,27 +26,33 @@ const auth = getAuth(fbApp)
 auth.languageCode = 'pt-BR'
 
 function customerAuth(tkn: string) {
-  const lastCustomerAuth = sessionStorage.getItem('last_ct_auth')
-  if (!lastCustomerAuth || Date.now() - Number(lastCustomerAuth) > 59 * 60 * 1000) {
-    customerRequest.post(customerRoutes.auth, { idToken: tkn }, { timeout: 15000, withCredentials: true }).then((res) => {
-      if (res.status != 200) return sessionStorage.removeItem('last_ct_auth')
-      sessionStorage.setItem('last_ct_auth', String(Date.now()))
-    })
-  }
+  customerRequest.post(customerRoutes.auth, { idToken: tkn }, { timeout: 15000, withCredentials: true }).then((res) => {
+    if (res.status != 200) return sessionStorage.removeItem('last_ct_auth')
+
+    store.dispatch(authActions.setCartToken(res.data.token))
+  })
 }
 
 onAuthStateChanged(auth, async (user) => {
   try {
     console.warn('Auth state changed')
-    if (!user?.uid) return store.dispatch(authActions.logout())
+
+    if (!user) return store.dispatch(authActions.logout())
+    const { uid, email, displayName, photoURL } = user
+
     const currentUserInfo = JSON.parse(store.getState().auth.user)
-    const userDataString = JSON.stringify({ ...currentUserInfo, ...user })
-
     const idToken = await auth.currentUser?.getIdToken()
-    idToken && customerAuth(idToken)
+    if (!idToken) throw new Error('idToken fail')
 
-    store.dispatch(authActions.fbUpdateLoggedUser(userDataString))
+    const userDataString = JSON.stringify({ ...currentUserInfo, ...{ uid, email, displayName, photoURL } })
+
+    const storeAuth = store.getState().auth
+    console.log(storeAuth.last_ct)
+    if (idToken && (!storeAuth.ct || Date.now() - Number(storeAuth.last_ct) > 1 * 55 * 1000)) customerAuth(idToken)
+
+    store.dispatch(authActions.fbUpdateLoggedUser({ user: userDataString, token: idToken }))
   } catch (error) {
+    store.dispatch(authActions.logout())
     console.error('Failed to set current auth state')
   }
 })

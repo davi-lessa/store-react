@@ -14,7 +14,7 @@ const apiRoutes = {
 const customerRequest = axios.create({ baseURL: generalSettings.store_api_base_url })
 
 const customerRoutes = {
-  auth: 'login',
+  auth: 'customer',
   logoff: 'logoff',
 }
 

@@ -4,21 +4,24 @@ import { OAuthCredential } from 'firebase/auth'
 
 export interface AuthStorage {
   user: string
-  token: OAuthCredential['accessToken']
+  token: OAuthCredential['accessToken'] | null
   isLogged: boolean
+  ct: string | null
+  last_ct: number | null
 }
 
-const def: AuthStorage = { user: '{}', token: '', isLogged: false }
+const def: AuthStorage = { user: '{}', token: null, isLogged: false, ct: null, last_ct: null }
 let initialState = def
 
 const getStoredAuth = () => {
   try {
     const storedAuth = sessionStorage.getItem('mxd_auth')
     const parsedAuth = storedAuth && JSON?.parse(storedAuth)
+    console.log(parsedAuth)
     if (parsedAuth) initialState = { ...parsedAuth }
   } catch (error) {
     sessionStorage.setItem('mxd_auth', JSON.stringify(def))
-    console.warn('Auth violated.')
+    console.warn('Auth violation reported.')
   }
 }
 
@@ -38,8 +41,17 @@ const authSlice = createSlice({
       currentState.token = payload.token
       currentState.isLogged = true
     },
-    fbUpdateLoggedUser(currentState, { payload }: { payload: string }) {
-      currentState.user = payload
+    setCartToken(currentState, { payload }) {
+      currentState.ct = payload
+      currentState.last_ct = Date.now()
+    },
+    unsetCartToken(currentState) {
+      currentState.ct = null
+      currentState.last_ct = null
+    },
+    fbUpdateLoggedUser(currentState, { payload }: { payload: { user: string; token: string } }) {
+      currentState.user = payload.user
+      currentState.token = payload.token
       currentState.isLogged = true
     },
     logout() {
