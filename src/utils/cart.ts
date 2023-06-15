@@ -11,7 +11,7 @@ function getBuyLink() {
     const loggedUser = JSON.parse(globalState.auth.user)
     loggedUser.email && (utmMail = loggedUser.email)
     loggedUser.displayName && (utmName = loggedUser.displayName)
-    customerToken = localStorage.getItem('ct') || null
+    customerToken = globalState.auth.ct
   } catch (error) {
     console.warn('failed on setting utm')
   }

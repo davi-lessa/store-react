@@ -17,7 +17,7 @@ const getStoredAuth = () => {
   try {
     const storedAuth = sessionStorage.getItem('mxd_auth')
     const parsedAuth = storedAuth && JSON?.parse(storedAuth)
-    console.log(parsedAuth)
+
     if (parsedAuth) initialState = { ...parsedAuth }
   } catch (error) {
     sessionStorage.setItem('mxd_auth', JSON.stringify(def))
