@@ -42,9 +42,9 @@ const ShippingCalculator: React.FC<Props> = (props: Props) => {
   const [currentCep, setCurrentCep] = useState<string>(localStorage.getItem('last_cep') || '')
   const savedCep = localStorage.getItem('last_cep') || ''
   const cepInput = useRef(savedCep)
+
   const maskRegexArray = [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/]
   const calcClicked = useRef(false)
-
   const {
     data: shippingResult,
     isFetched,
@@ -54,7 +54,7 @@ const ShippingCalculator: React.FC<Props> = (props: Props) => {
     async () => {
       try {
         if (!currentCep || !calcClicked.current) return null
-        ItemCalculationSchema.parse({ ...props.itemInfo, id: '1' })
+        ItemCalculationSchema.parse({ ...props.itemInfo })
         const req = await apiRequest.post<ShippingCalcResponse>(apiRoutes.shippingCalc, {
           ...props.itemInfo,
           cep: currentCep.match(/[0-9]/g)?.join(''),
@@ -74,10 +74,12 @@ const ShippingCalculator: React.FC<Props> = (props: Props) => {
     const conformed = conformToMask(cepInput.current, maskRegexArray)
     const formatted = conformed.conformedValue.match(/[0-9]/g)?.join('') || ''
     if (conformed?.meta?.someCharsRejected || formatted?.length < 8) return
+
     localStorage.setItem('last_cep', formatted)
     calcClicked.current = true
 
-    queryClient.invalidateQueries({ queryKey: 'shipping-calc-' + props.itemInfo.id + props.itemInfo.quantity + currentCep })
+    // queryClient.invalidateQueries({ queryKey: 'shipping-calc-' + props.itemInfo.id + props.itemInfo.quantity + currentCep })
+    queryClient.refetchQueries({ queryKey: 'shipping-calc-' + props.itemInfo.id + props.itemInfo.quantity + currentCep })
     setCurrentCep(cepInput.current)
   }
 
@@ -112,7 +114,7 @@ const ShippingCalculator: React.FC<Props> = (props: Props) => {
           className="freight-input"
           placeholder={savedCep ? conformToMask(savedCep, maskRegexArray).conformedValue : 'CEP'}
           id="cepInput"
-          defaultValue={savedCep}
+          // defaultValue={savedCep}
           onChange={(e) => {
             cepInput.current = e.currentTarget.value
           }}
@@ -122,8 +124,9 @@ const ShippingCalculator: React.FC<Props> = (props: Props) => {
           Calcular
         </button>
       </div>
+
       <div className={`cep-result ${isFetching || shippingResult?.options.length ? '' : 'hidden'}`}>
-        {isFetched && shippingResult?.options.length ? (
+        {isFetched ? (
           <div>
             <h4 style={{ marginBottom: '15px' }}>
               Frete para: <strong>{conformToMask(currentCep, maskRegexArray).conformedValue}</strong>

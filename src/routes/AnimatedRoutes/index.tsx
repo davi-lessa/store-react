@@ -11,6 +11,7 @@ import LoginPage from 'pages/Login'
 import PrivateRoutes from 'routes/PrivateRoutes'
 import MailVerify from 'pages/Login/MailVerify'
 import LogoffRoute from 'pages/Login/Logoff'
+import InfoPage from 'pages/Info'
 
 const AnimatedRoutes: React.FC = () => {
   const location = useLocation()
@@ -22,8 +23,12 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="produto/:slug?" element={<ProductPage />}></Route>
         <Route path="login" element={<LoginPage />}></Route>
 
+        <Route path="politica-de-privacidade" element={<InfoPage slug="privacy" />}></Route>
+        <Route path="termos" element={<InfoPage slug="terms" />}></Route>
+        <Route path="sorteios" element={<InfoPage slug="rattles" />}></Route>
+
         <Route element={<PrivateRoutes />}>
-          <Route path="minhaconta/:navigate?" element={<Account />}></Route>
+          <Route path="minhaconta/:navigate?/:ref?" element={<Account />}></Route>
         </Route>
       </Route>
 

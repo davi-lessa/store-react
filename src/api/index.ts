@@ -11,11 +11,18 @@ const apiRoutes = {
   cartCheck: 'cart-check',
 }
 
-const customerRequest = axios.create({ baseURL: generalSettings.store_api_base_url })
+const customerRequest = axios.create({ baseURL: generalSettings.store_api_base_url, withCredentials: true })
 
-const customerRoutes = {
-  auth: 'customer',
-  logoff: 'logoff',
+const infoRoutes = {
+  terms: 'info/terms',
+  privacy: 'info/privacy',
 }
 
-export { apiRequest, apiRoutes, customerRequest, customerRoutes }
+const customerRoutes = {
+  auth: 'customer/me',
+  logoff: 'logoff',
+  orders: '/api/orders',
+  orderById: (orderId: string) => '/api/order/' + orderId,
+}
+
+export { apiRequest, apiRoutes, customerRequest, customerRoutes, infoRoutes }

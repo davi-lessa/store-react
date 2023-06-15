@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { Container, Content, Header } from './styles'
 // import { signOut, getAuth } from 'firebase/auth'

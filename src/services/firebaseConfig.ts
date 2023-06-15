@@ -47,7 +47,7 @@ onAuthStateChanged(auth, async (user) => {
     const userDataString = JSON.stringify({ ...currentUserInfo, ...{ uid, email, displayName, photoURL } })
 
     const storeAuth = store.getState().auth
-    if (idToken && (!storeAuth.ct || Date.now() - Number(storeAuth.last_ct) > 1 * 55 * 1000)) customerAuth(idToken)
+    if (idToken && (!storeAuth.ct || Date.now() - Number(storeAuth.last_ct) > 1 * 30 * 60 * 1000)) customerAuth(idToken)
 
     store.dispatch(authActions.fbUpdateLoggedUser({ user: userDataString, token: idToken }))
   } catch (error) {

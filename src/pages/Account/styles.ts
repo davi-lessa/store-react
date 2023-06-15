@@ -24,8 +24,8 @@ export const Header = styled.div`
 export const Content = styled.div`
   grid-area: content;
   background: white;
-  padding: 25px;
-  border-radius: 20px;
+  padding: 35px;
+  /* border-radius: 20px; */
   max-height: 500px;
   box-shadow: 0 0px 20px 0 #00000011;
 `

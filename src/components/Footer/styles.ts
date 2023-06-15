@@ -34,6 +34,9 @@ export const FooterList = styled.ul`
   li {
     line-height: 1.25;
     letter-spacing: 0.3px;
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
 
     p {
       display: flex;
@@ -48,21 +51,25 @@ export const FooterList = styled.ul`
     }
 
     .input-holder {
-      display: flex;
+      display: grid;
+      width: min-content;
+      grid-template-columns: 7fr 3fr;
+      width: 100%;
       margin-top: 16px;
 
       input {
-        flex: 1;
         padding: 12px 15px;
         background-color: #f2f3f5;
         font-size: 1em;
         border-radius: 6px 0 0 6px;
+        width: 100%;
       }
       button {
         padding: 12px 15px;
         background: forestgreen;
         font-size: 0.95em;
         color: white;
+        width: 100%;
         border-radius: 0 6px 6px 0;
       }
     }

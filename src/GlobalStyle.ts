@@ -94,7 +94,8 @@ export const GlobalStyle = styled.createGlobalStyle`
     justify-content: center;
     align-items: center;
     border-radius: 8px;
-    background-color: #0063db;
+    /* background-color: #0063db; */
+    background: rgb(52, 131, 250);
     color: #fff;
     font-size: 14px;
     line-height: 18px;
