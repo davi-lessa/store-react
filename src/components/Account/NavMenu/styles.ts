@@ -13,8 +13,20 @@ export const MenuList = styled.div`
     border-radius: 10px;
     padding: 10px 15px;
     user-select: none;
-    transition: all 0.25s ease;
+    transition: all 0.25s ease, outline-width 0s;
     cursor: pointer;
+
+    &.active {
+      outline-color: rgb(52, 131, 250);
+      outline-width: 2px;
+
+      span {
+        &::after {
+          border-color: rgb(52, 131, 250);
+          width: 100% !important;
+        }
+      }
+    }
 
     a {
       text-decoration: none;
@@ -67,13 +79,13 @@ export const MenuList = styled.div`
       span {
         width: min-content;
         text-align: center;
-      }
-    }
-  }
 
-  &.page-nav {
-    li {
-      /* border-radius: 8px 20px; */
+        &:after {
+          transform: translateX(-50%);
+          left: 50%;
+          border-bottom-color: lightgrey;
+        }
+      }
     }
   }
 `

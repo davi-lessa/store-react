@@ -15,16 +15,17 @@ const AccountNavMenu: React.FC = () => {
     'auth/logoff': 'Sair',
   }
 
+  function navClick(route: string) {
+    setCurrentRoute('/' + route)
+    navigate('/' + route, { replace: true })
+  }
+
   return (
     <MenuList className="page-nav">
       {Object.entries(menuItems).map(([route, label]) => {
         return (
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
-          <li
-            key={`auth-nav-${route}`}
-            onClick={() => navigate('/' + route, { replace: true })}
-            className={currentRoute === '/' + route ? 'active' : ''}
-          >
+          <li key={`auth-nav-${route}`} onClick={() => navClick(route)} className={currentRoute === '/' + route ? 'active' : ''}>
             <span>{label}</span>
           </li>
         )
