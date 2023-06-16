@@ -45,6 +45,17 @@ export const OrderList = styled.ul`
       }
     }
 
+    @media screen and (max-width: 922px) {
+      grid-template-columns: 1fr;
+
+      .image {
+        width: 75px;
+        height: 75px;
+        padding: 0;
+        order: 3;
+      }
+    }
+
     button {
       font-weight: 500;
       font-family: 'Inter', 'ML', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

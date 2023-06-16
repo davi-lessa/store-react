@@ -16,6 +16,13 @@ export const Container = styled.div`
   .nav-menu-holder {
     grid-area: navmenu;
   }
+
+  @media screen and (max-width: 922px) {
+    padding: 35px 7%;
+    grid-template-rows: min-content min-content auto;
+    grid-template-columns: 1fr;
+    grid-template-areas: 'header header' 'navmenu navmenu' 'content content';
+  }
 `
 
 export const Header = styled.div`
@@ -25,7 +32,11 @@ export const Content = styled.div`
   grid-area: content;
   background: white;
   padding: 35px;
-  /* border-radius: 20px; */
   max-height: 500px;
   box-shadow: 0 0px 20px 0 #00000011;
+
+  @media screen and (max-width: 922px) {
+    margin-top: 10px;
+    padding: 20px;
+  }
 `
