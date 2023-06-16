@@ -46,15 +46,22 @@ export const MenuList = styled.div`
     display: flex;
     gap: 15px;
     align-items: stretch;
-    padding: 15px 0;
+    padding: 15px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    border-radius: 10px;
+    margin-top: 20px;
+    background: #e1e2e4;
 
     li {
-      outline: 2px solid #c2c2c2;
+      background: white;
+      outline: 1px solid #d0d1d2;
       width: min-content;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 18px 12px;
+      padding: 12px;
+      background-color: white;
       min-width: 75px;
 
       span {

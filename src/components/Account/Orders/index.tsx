@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Container, OrderList } from './styles'
 import { useQuery } from 'react-query'
@@ -23,13 +23,14 @@ const Orders: React.FC = () => {
     async () => {
       try {
         const req = await customerRequest.get<OrderAPIResponse>(customerRoutes.orders)
+        if (req.status != 200) throw new Error('123')
         const res = req.data
         return res
       } catch (error) {
-        return { data: [], error: true }
+        throw new Error('Failed on getting orders')
       }
     },
-    { staleTime: 1000 * 60, refetchOnWindowFocus: true }
+    { staleTime: 1000 * 60, refetchOnWindowFocus: true, refetchOnMount: true, enabled: !orderIdParam }
   )
 
   if (orderIdParam) return <ViewOrder orderId={orderIdParam}></ViewOrder>
@@ -54,7 +55,7 @@ const Orders: React.FC = () => {
                   </div>
 
                   <div className="actions">
-                    <button className="button" onClick={() => navigate('/minhaconta/pedidos/' + String(order.id), { preventScrollReset: true })}>
+                    <button className="button" onClick={() => navigate('/minhaconta/pedidos/' + String(order.id), { preventScrollReset: false })}>
                       Ver pedido
                     </button>
                   </div>

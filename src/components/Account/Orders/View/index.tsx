@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
-import React from 'react'
+import { motion, wrap } from 'framer-motion'
+import React, { useEffect, useRef } from 'react'
 
 import { Container } from './styles'
 import { useQuery } from 'react-query'
@@ -15,22 +15,40 @@ interface Props {
 }
 
 const ViewOrder: React.FC<Props> = (props: Props) => {
-  const { data: orderData, isFetching } = useQuery(
+  const wrapperRef = useRef<HTMLDivElement>(null)
+
+  const {
+    data: orderData,
+    isFetching,
+    isError,
+  } = useQuery(
     'order-' + props.orderId,
     async () => {
       try {
         const req = await customerRequest.get<OrderAPIResponse>(customerRoutes.orderById(props.orderId))
+        if (req.status != 200) throw new Error()
         const res = req.data
         return res
       } catch (error) {
-        return { data: [], error: true }
+        throw new Error('Failed on getting order')
+        // return { data: [], error: true }
       }
     },
-    { staleTime: 1000 * 60, refetchOnWindowFocus: true }
+    { staleTime: 1000 * 60 * 5, refetchOnWindowFocus: true, refetchOnMount: true }
   )
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [])
+
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }} exit={{ opacity: 0 }}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { duration: 0.25 } }}
+      exit={{ opacity: 0 }}
+      ref={wrapperRef}
+      style={{ scrollMarginTop: '135px' }}
+    >
       <Container>
         <h2>Pedido #{props.orderId}</h2>
       </Container>

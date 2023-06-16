@@ -24,6 +24,30 @@ export const ProductMarginHolder = styled.div`
   margin: 0 auto;
   padding: 25px;
 
+  .cat_nav {
+    user-select: none;
+    font-size: 0.9em;
+    color: #888;
+    letter-spacing: 0.0025em;
+    margin-bottom: 7px;
+    margin-left: 25px;
+    font-family: 'ML', 'Inter', 'Saira Condensed', 'Segoe UI', sans-serif;
+
+    a {
+      &:hover {
+        color: black;
+      }
+    }
+    span {
+      color: #333;
+      cursor: default;
+    }
+    .cat {
+      color: #999;
+      margin-right: 5px;
+    }
+  }
+
   @media screen and (max-width: 922px) {
     padding: 0;
     max-width: 100vw;

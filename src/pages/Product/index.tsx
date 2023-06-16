@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { Description, PictureBox, ProductContainer, ProductContent, ProductMarginHolder, Selling, Specs } from './styles'
 import { useQuery } from 'react-query'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { apiRequest, apiRoutes } from 'api'
 
 // Icons
@@ -32,6 +32,8 @@ import { ExpectedAddPayload, actions as cartActions } from 'store/reducers/cart'
 import { useDispatch } from 'react-redux'
 import Accordion from 'components/Accordion'
 import ShippingCalculator from 'components/Product/ShippingCalculator'
+import { AxiosError } from 'axios'
+import sanitizeCatName from 'utils/catname-sanitize'
 
 interface ProductAPIResponse {
   data: ProductItem[]
@@ -51,9 +53,9 @@ interface VariationOptions {
 
 const ProductPage: React.FC = () => {
   const params = useParams()
-  const navigate = useNavigate()
   const { pathname } = useLocation()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const productReviews = useRef<HTMLElement>(null)
   const lastScrollPos = useRef(0)
@@ -68,15 +70,25 @@ const ProductPage: React.FC = () => {
 
   const slug: string | undefined = params.slug
 
-  const { data: productData } = useQuery(
+  const { data: productData, isError } = useQuery(
     'product-' + params?.slug,
     async () => {
-      if (!slug) return navigate('/', { replace: true })
+      try {
+        const req = await apiRequest.get<ProductAPIResponse>(apiRoutes.productBySlug(slug || ''))
 
-      const req = await apiRequest.get<ProductAPIResponse>(apiRoutes.productBySlug(slug))
-      return req.data
+        if (req.status != 200) throw new Error()
+        return req.data
+      } catch (error) {
+        throw new Error('PRODUCT_DATA_REQ', { cause: (error as AxiosError)?.response?.status })
+      }
     },
-    { staleTime: 7 * 1000 * 60 }
+    {
+      staleTime: 7 * 1000 * 60,
+      refetchOnWindowFocus: true,
+      enabled: !!slug,
+      onError: (error: Error) => error?.cause === 404 && navigate('/', { replace: true }),
+      retry: false,
+    }
   )
 
   const fetchedProduct = productData && productData.data[0]
@@ -129,6 +141,8 @@ const ProductPage: React.FC = () => {
       setSelectedVariation(newVariation)
     }
   }
+
+  if (!slug) return <Navigate to={'/'} replace={true}></Navigate>
 
   const currentSKU = getSelectedVariationSKU()
   const canSale = currentSKU && currentSKU.can_sale
@@ -327,11 +341,22 @@ const ProductPage: React.FC = () => {
   }
 
   const paymentConditions = generatePaymentConditions({ value: (currentSKU?.price_discount && currentSKU.price_discount * selectedQty) || 0 })
+  const catNav = (
+    <>
+      {fetchedProduct?.categories?.data?.map((c) => (
+        <Link key={'cat' + c?.id} className="cat" to={'/categorias/' + c?.id + '/' + sanitizeCatName(c?.name)}>
+          {c?.name} &gt;
+        </Link>
+      ))}
+      <span>{fetchedProduct?.name || 'Cat'}</span>
+    </>
+  )
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} key="product-handler">
       <ProductContainer>
         <ProductMarginHolder>
+          <p className="cat_nav">{catNav}</p>
           <ProductContent>
             <div className="pictures">
               <PictureBox>
