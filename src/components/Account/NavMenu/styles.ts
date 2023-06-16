@@ -22,7 +22,7 @@ export const MenuList = styled.div`
 
       span {
         &::after {
-          border-color: rgb(52, 131, 250);
+          border-bottom-color: rgb(52, 131, 250);
           width: 100% !important;
         }
       }
@@ -75,6 +75,7 @@ export const MenuList = styled.div`
       padding: 12px;
       background-color: white;
       min-width: 75px;
+      font-size: 0.9em;
 
       span {
         width: min-content;
@@ -83,7 +84,7 @@ export const MenuList = styled.div`
         &:after {
           transform: translateX(-50%);
           left: 50%;
-          border-bottom-color: lightgrey;
+          border-bottom-color: lightgrey !important;
         }
       }
     }
