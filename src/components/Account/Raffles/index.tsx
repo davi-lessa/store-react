@@ -38,6 +38,17 @@ const Raffles: React.FC = () => {
     if (rafflesData?.data?.active) setRafflesActive(() => true)
   }, [rafflesData])
 
+  async function updateActive(value: boolean) {
+    try {
+      const req = await customerRequest.post(customerRoutes.raffles)
+      if (req.status != 200) throw new Error('bad-request')
+      const res = req.data
+      return res
+    } catch (error) {
+      return false
+    }
+  }
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }} exit={{ opacity: 0 }}>
       <Container className={rafflesActive ? 'active' : ''}>

@@ -39,11 +39,17 @@ const Orders: React.FC = () => {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }} exit={{ opacity: 0 }}>
       <Container>
         <h2>Pedidos</h2>
+
         {ordersData?.data?.length ? (
           <OrderList>
-            {ordersData.data.map((order) => {
+            {ordersData.data.map((order, orderIndex) => {
               return (
-                <li key={'order-' + order.id}>
+                <motion.li
+                  key={'order-' + order.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1, transition: { duration: 0.25, delay: orderIndex * 0.1 } }}
+                  exit={{ opacity: 0 }}
+                >
                   <div className="image">
                     <img src={'123'} alt="" />
                   </div>
@@ -59,7 +65,7 @@ const Orders: React.FC = () => {
                       Ver pedido
                     </button>
                   </div>
-                </li>
+                </motion.li>
               )
             })}
           </OrderList>
