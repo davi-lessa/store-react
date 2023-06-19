@@ -10,6 +10,7 @@ export const Container = styled.div`
   cursor: pointer;
   position: relative;
   transition: all 0.25s ease;
+  user-select: none;
 
   &.enabled {
     background: forestgreen;

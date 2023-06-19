@@ -27,6 +27,7 @@ export const Container = styled.div`
     padding: 15px 20px;
     border-radius: 10px;
     color: black;
+    user-select: none;
 
     p {
       margin-bottom: 0;

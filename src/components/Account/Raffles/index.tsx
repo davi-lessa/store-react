@@ -5,7 +5,8 @@ import { Container } from './styles'
 import { customerRequest, customerRoutes } from 'api'
 import { useQuery } from 'react-query'
 import Switch from 'components/Switch'
-import { BulletList } from 'react-content-loader'
+import { Code } from 'react-content-loader'
+import queryClient from 'services/queryClient'
 
 interface RafflesAPIResponse {
   data: any
@@ -33,6 +34,7 @@ const Raffles: React.FC = () => {
   )
 
   const [rafflesActive, setRafflesActive] = useState(rafflesData?.data?.active ? true : false)
+  const [isUpdating, setIsUpdating] = useState(false)
 
   useEffect(() => {
     if (rafflesData?.data?.active) setRafflesActive(() => true)
@@ -40,27 +42,46 @@ const Raffles: React.FC = () => {
 
   async function updateActive(value: boolean) {
     try {
-      const req = await customerRequest.post(customerRoutes.raffles)
+      const req = await customerRequest.post(customerRoutes.raffles, { value })
       if (req.status != 200) throw new Error('bad-request')
-      const res = req.data
-      return res
+
+      const newData = { ...rafflesData }
+      newData.data.active = value
+      queryClient.setQueryData('raffles', newData)
+      return true
     } catch (error) {
       return false
     }
   }
 
+  async function activeChangeHandler() {
+    if (isUpdating) return
+    setIsUpdating(true)
+    const status = !rafflesActive
+    const updated = await updateActive(status)
+    if (updated) {
+      setRafflesActive(status)
+      setIsUpdating(false)
+      return true
+    }
+    setIsUpdating(false)
+    return false
+  }
+
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }} exit={{ opacity: 0 }}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }} exit={{ opacity: 0 }} key={111}>
       <Container className={rafflesActive ? 'active' : ''}>
         <h2>Sorteios</h2>
 
         {isFetching ? (
-          <BulletList></BulletList>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }} exit={{ opacity: 0 }} key={'rf-en-1'}>
+            <Code></Code>
+          </motion.div>
         ) : isFetched && !isError ? (
           <div>
             <div className="holder">
               <span>Participar de Sorteios</span>
-              <Switch defaultChecked={rafflesActive} onChange={(status: boolean) => setRafflesActive(status)} changeVar={rafflesActive}></Switch>
+              <Switch defaultChecked={rafflesActive} onClick={activeChangeHandler} controllerVar={rafflesActive}></Switch>
 
               {rafflesActive ? (
                 <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }} exit={{ opacity: 0 }} key={'rf-en-1'}>
@@ -68,7 +89,7 @@ const Raffles: React.FC = () => {
                 </motion.p>
               ) : (
                 <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }} exit={{ opacity: 0 }} key={'rf-en-2'}>
-                  Inscreva-se para os próximos sorteios. Ao se inscrever, você concorda com a Política de Sorteio
+                  Inscreva-se para os próximos sorteios. Ao se inscrever, você concorda com a <strong>Política de Sorteios</strong>
                 </motion.p>
               )}
             </div>
