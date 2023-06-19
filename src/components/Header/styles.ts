@@ -114,7 +114,7 @@ export const RightSide = styled.div`
   @media screen and (max-width: 922px) {
     gap: 8px;
     .username {
-      font-size: 1em;
+      font-size: 1.15em;
       margin-right: 3px;
     }
   }

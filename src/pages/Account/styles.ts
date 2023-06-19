@@ -31,7 +31,9 @@ export const Content = styled.div`
   grid-area: content;
   background: white;
   padding: 35px;
-  max-height: 500px;
+  /* max-height: 500px; */
+  min-height: 500px;
+  overflow-y: auto;
   box-shadow: 0 0px 20px 0 #00000011;
 
   @media screen and (max-width: 922px) {

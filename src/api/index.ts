@@ -14,6 +14,7 @@ const apiRoutes = {
 }
 
 const customerRequest = axios.create({ baseURL: generalSettings.store_api_base_url, withCredentials: true })
+
 const customerInterceptor = (res: any) => res
 customerRequest.interceptors.response.use(customerInterceptor, async (error: AxiosError) => {
   if (error.response?.status === 401) {
@@ -27,7 +28,7 @@ customerRequest.interceptors.response.use(customerInterceptor, async (error: Axi
     if (!tkn) return logoff()
     const reAuth = await customerAuth(tkn)
     if (reAuth) return true
-    else window.location.reload()
+    else logoff()
   }
 })
 
@@ -41,7 +42,8 @@ const customerRoutes = {
   auth: 'customer/auth',
   logoff: 'logoff',
   orders: '/api/orders',
-  raffles: '/api/raffles',
+  rafflesUser: '/api/raffles',
+  olderRaffles: '/api/raffles/older',
   orderById: (orderId: string) => '/api/order/' + orderId,
 }
 

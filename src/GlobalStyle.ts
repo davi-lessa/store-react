@@ -117,6 +117,10 @@ export const GlobalStyle = styled.createGlobalStyle`
     text-decoration: none;
   }
 
+  strong {
+    font-weight: bold;
+  }
+
   body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-color);

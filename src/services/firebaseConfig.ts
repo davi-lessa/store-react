@@ -32,7 +32,7 @@ onAuthStateChanged(auth, async (user) => {
     if (!user) return store.dispatch(authActions.logout())
     const { uid, email, displayName, photoURL } = user
 
-    const currentUserInfo = JSON.parse(store.getState().auth.user)
+    const currentUserInfo = JSON.parse(store.getState().auth.user) || {}
     const idToken = await auth.currentUser?.getIdToken()
     if (!idToken) throw new Error('idToken fail')
 
