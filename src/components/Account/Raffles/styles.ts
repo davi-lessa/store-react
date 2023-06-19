@@ -18,6 +18,7 @@ export const Container = styled.div`
   .holder {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     max-width: 50%;
     align-items: center;
     gap: 15px 10px;

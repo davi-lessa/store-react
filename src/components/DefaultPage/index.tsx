@@ -5,8 +5,6 @@ import { Container, Main } from './styles'
 import Header from 'components/Header'
 import Footer from 'components/Footer'
 
-// import Cart from '../Cart'
-
 const PageModel: React.FC = () => {
   return (
     <Container>

@@ -123,7 +123,7 @@ const Raffles: React.FC = () => {
 
             <br />
 
-            <h3>Próximos e finalizados</h3>
+            <h3>Próximos e últimos realizados</h3>
             {olderRafflesIsError ? (
               <p>Não foi possível obter sorteios anteriores</p>
             ) : olderRafflesIsFetching ? (

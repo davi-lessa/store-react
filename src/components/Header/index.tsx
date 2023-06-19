@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { AccountBtn, Advice, CartBtn, Center, Container, Content, LeftSide, MenuButton, RightSide } from './styles'
+import { AccountBtn, Advice, CartBtn, Center, Container, Content, HeaderStyle, LeftSide, MenuButton, RightSide } from './styles'
 import { Link, useNavigate } from 'react-router-dom'
 import Balancer from 'react-wrap-balancer'
 import { GiBeard as Logo, GiHamburgerMenu as MenuIcon } from 'react-icons/gi'
@@ -75,7 +75,7 @@ const Header: React.FC<HeaderProps> = ({ borderColor }: HeaderProps) => {
   }
 
   return (
-    <header>
+    <HeaderStyle>
       <Advice>
         <Balancer>FRETE GRÁTIS A PARTIR DE 2 UNIDADES PARA SALVADOR</Balancer>
       </Advice>
@@ -125,7 +125,7 @@ const Header: React.FC<HeaderProps> = ({ borderColor }: HeaderProps) => {
           )
         )}
       </div>
-    </header>
+    </HeaderStyle>
   )
 }
 

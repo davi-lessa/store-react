@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+export const HeaderStyle = styled.header`
+  border-bottom: 1px solid rgb(226, 226, 226);
+`
+
 export const Container = styled.div`
   height: 75px;
   width: 100%;
@@ -19,10 +23,8 @@ export const Content = styled.div`
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 20px;
-  /* justify-content: space-between; */
   align-items: center;
   padding: 0 7%;
-  /* border-bottom: 1px solid ; */
 
   @media screen and (max-width: 922px) {
     padding: 0 var(--default-padding-h);

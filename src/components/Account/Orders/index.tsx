@@ -8,6 +8,7 @@ import { OrderData } from 'types/orders'
 import { formatPrice } from 'utils/price'
 import { useNavigate, useParams } from 'react-router-dom'
 import ViewOrder from './View'
+import { List } from 'react-content-loader'
 
 interface OrderAPIResponse {
   data: OrderData[]
@@ -18,7 +19,11 @@ const Orders: React.FC = () => {
   const orderIdParam = params.ref
   const navigate = useNavigate()
 
-  const { data: ordersData, isFetching } = useQuery(
+  const {
+    data: ordersData,
+    isFetching,
+    isError,
+  } = useQuery(
     'orders',
     async () => {
       try {
@@ -40,7 +45,11 @@ const Orders: React.FC = () => {
       <Container>
         <h2>Pedidos</h2>
 
-        {ordersData?.data?.length ? (
+        {isError ? (
+          <p>Não foi possível obter os seus pedidos.</p>
+        ) : isFetching ? (
+          <List></List>
+        ) : ordersData?.data?.length ? (
           <OrderList>
             {ordersData.data.map((order, orderIndex) => {
               return (

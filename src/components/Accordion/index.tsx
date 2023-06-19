@@ -2,18 +2,19 @@ import React, { useRef } from 'react'
 
 import { Container } from './styles'
 
-interface Props {
+export interface AccordionProps {
   data: [button: any, panel: any, options: AccordOptions][]
 }
 
 interface AccordOptions {
-  groupName: string
-  buttonClass: string
-  panelClass: string
-  arrowRight: boolean
+  groupName?: string
+  buttonClass?: string
+  panelClass?: string
+  arrowRight?: boolean
+  dangerousHtml: boolean
 }
 
-const Accordion: React.FC<Props> = (props: Props) => {
+const Accordion: React.FC<AccordionProps> = (props: AccordionProps) => {
   const accordionWrapperRef = useRef<HTMLDivElement>(null)
 
   const accordionClickHandler = (e: React.MouseEvent) => {
@@ -51,18 +52,23 @@ const Accordion: React.FC<Props> = (props: Props) => {
     <Container>
       <div className="innerWrapper" ref={accordionWrapperRef}>
         {props.data.map(([button, panel, options]) => {
+          const extraArguments: any = {}
+          if (options.dangerousHtml === true) extraArguments.dangerouslySetInnerHTML = { __html: panel }
+
           return (
             <div key={'accord-' + Math.random()}>
               <button
-                className={`dlv_accord ${options.arrowRight && 'arrow-right'} ${options.buttonClass}`}
+                className={`dlv_accord ${options.arrowRight ? 'arrow-right' : ''} ${options?.buttonClass ? options?.buttonClass : ''}`}
                 onClick={accordionClickHandler}
-                data-group={options.groupName || null}
+                data-group={options.groupName || 'default'}
               >
                 {button}
               </button>
 
-              <div className={`dlv_acc_panel ${options.panelClass}`}>
-                <div className="panel_content">{panel}</div>
+              <div className={`dlv_acc_panel ${options.panelClass ? options?.panelClass : ''}`}>
+                <div className="panel_content" {...extraArguments}>
+                  {!options.dangerousHtml ? panel : null}
+                </div>
               </div>
             </div>
           )
