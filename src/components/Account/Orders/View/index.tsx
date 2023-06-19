@@ -34,7 +34,7 @@ const ViewOrder: React.FC<Props> = (props: Props) => {
         // return { data: [], error: true }
       }
     },
-    { staleTime: 1000 * 60 * 5, refetchOnWindowFocus: true, refetchOnMount: true }
+    { staleTime: 1000 * 60 * 5, refetchOnWindowFocus: true, refetchOnMount: true, retry: 2, retryDelay: 2000 }
   )
 
   useEffect(() => {

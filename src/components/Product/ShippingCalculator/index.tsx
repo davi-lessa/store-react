@@ -66,7 +66,7 @@ const ShippingCalculator: React.FC<Props> = (props: Props) => {
         return null
       }
     },
-    { staleTime: 60 * 1000 * 60, enabled: !!currentCep }
+    { staleTime: 60 * 1000 * 60, enabled: !!currentCep, retryDelay: 2000, retry: 2 }
   )
 
   function updateCEP() {

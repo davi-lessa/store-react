@@ -6,6 +6,14 @@ const styled = { createGlobalStyle }
 
 export const GlobalStyle = styled.createGlobalStyle`
   :root {
+    --default-padding-h: 7%;
+    --default-padding-v: 35px;
+
+    @media screen and (max-width: 340px) {
+      --default-padding-h: 4%;
+      --default-padding-v: 15px;
+    }
+
     --desktop-max-width: 1700px;
 
     --primary-color: #0063db;

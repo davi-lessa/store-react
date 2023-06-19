@@ -30,7 +30,7 @@ const Orders: React.FC = () => {
         throw new Error('Failed on getting orders')
       }
     },
-    { staleTime: 1000 * 60, refetchOnWindowFocus: true, refetchOnMount: true, enabled: !orderIdParam }
+    { staleTime: 1000 * 60, refetchOnWindowFocus: true, refetchOnMount: true, enabled: !orderIdParam, retry: 2, retryDelay: 3000 }
   )
 
   if (orderIdParam) return <ViewOrder orderId={orderIdParam}></ViewOrder>
@@ -39,7 +39,7 @@ const Orders: React.FC = () => {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }} exit={{ opacity: 0 }}>
       <Container>
         <h2>Pedidos</h2>
-        {ordersData?.data ? (
+        {ordersData?.data?.length ? (
           <OrderList>
             {ordersData.data.map((order) => {
               return (

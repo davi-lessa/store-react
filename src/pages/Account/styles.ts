@@ -5,7 +5,7 @@ export const Container = styled.div`
   min-height: 80vh;
   max-width: var(--desktop-max-width);
   margin: 0 auto;
-  padding: 50px 7%;
+  padding: calc(var(--default-padding-v) + 20px) var(--default-padding-h);
 
   display: grid;
   grid-template-areas: 'header content' 'navmenu content';
@@ -18,7 +18,6 @@ export const Container = styled.div`
   }
 
   @media screen and (max-width: 922px) {
-    padding: 35px 7%;
     grid-template-rows: min-content min-content auto;
     grid-template-columns: 1fr;
     grid-template-areas: 'header header' 'navmenu navmenu' 'content content';

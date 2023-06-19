@@ -21,10 +21,10 @@ const Account: React.FC = () => {
 
   const componentMap = (key: string) => {
     const maps: { [key: string]: any } = {
-      pedidos: <Orders></Orders>,
-      sorteios: <Raffles></Raffles>,
+      pedidos: <Orders key={'cmp-orders'}></Orders>,
+      sorteios: <Raffles key={'cmp-rattles'}></Raffles>,
     }
-    return maps?.[key] || <Orders></Orders>
+    return maps?.[key] || <Orders key={'cmp-orders'}></Orders>
   }
 
   useEffect(() => {

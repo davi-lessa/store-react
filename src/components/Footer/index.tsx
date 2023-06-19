@@ -7,6 +7,16 @@ const Footer: React.FC = () => {
   function goTop() {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
   }
+
+  const items = {
+    '/minhaconta': 'Minha conta',
+    '/rastreamento': 'Rastreamento',
+    '/atendimento': 'Atendimento',
+    '/faq': 'Perguntas frequentes',
+    '/politica-de-privacidade': 'Política de Privacidade',
+    '/termos-de-uso': 'Termos de uso',
+    '/sobre-nos': 'Sobre Nós',
+  }
   return (
     <>
       <BtnGoTop id="footerGoTopBtn" onClick={goTop}>
@@ -18,21 +28,11 @@ const Footer: React.FC = () => {
             <h3>Páginas Úteis</h3>
             <div className="dlv_acc_panel footer">
               <div className="panel_content footer">
-                <p>
-                  <Link to="/minhaconta">Minha conta</Link>
-                </p>
-                <p>
-                  <Link to="/sobre-nos">Sobre Nós</Link>
-                </p>
-                <p>
-                  <Link to="/atendimento">Fale Conosco</Link>
-                </p>
-                <p>
-                  <Link to="/rastreamento">Rastrear Pedido</Link>
-                </p>
-                <p>
-                  <Link to="/faq">FAQ</Link>
-                </p>
+                {Object.entries(items).map(([route, label], i) => (
+                  <p key={'footer-nav-' + i}>
+                    <Link to={route}>{label}</Link>
+                  </p>
+                ))}
               </div>
             </div>
           </li>

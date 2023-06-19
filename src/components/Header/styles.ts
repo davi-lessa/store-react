@@ -24,8 +24,13 @@ export const Content = styled.div`
   padding: 0 7%;
   /* border-bottom: 1px solid ; */
 
-  @media screen and (max-width: 768px) {
-    padding: 0 25px;
+  @media screen and (max-width: 922px) {
+    padding: 0 var(--default-padding-h);
+    gap: 7px;
+
+    h1 {
+      font-size: 1.8em;
+    }
   }
 
   h1 {
@@ -52,7 +57,7 @@ export const Advice = styled.div`
   color: white;
   letter-spacing: 0.5px;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 922px) {
     font-size: 0.8em;
   }
 `
@@ -104,6 +109,14 @@ export const RightSide = styled.div`
     font-weight: bold;
     transition: all 0.25s ease;
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  }
+
+  @media screen and (max-width: 922px) {
+    gap: 8px;
+    .username {
+      font-size: 1em;
+      margin-right: 3px;
+    }
   }
 `
 

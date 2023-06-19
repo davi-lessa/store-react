@@ -13,15 +13,17 @@ const apiRoutes = {
 
 const customerRequest = axios.create({ baseURL: generalSettings.store_api_base_url, withCredentials: true })
 
-const infoRoutes = {
+const infoRoutes: { [key: string]: string } = {
   terms: 'info/terms',
   privacy: 'info/privacy',
+  faq: 'info/faq',
 }
 
 const customerRoutes = {
   auth: 'customer/me',
   logoff: 'logoff',
   orders: '/api/orders',
+  raffles: '/api/raffles',
   orderById: (orderId: string) => '/api/order/' + orderId,
 }
 

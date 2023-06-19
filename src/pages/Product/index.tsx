@@ -87,7 +87,9 @@ const ProductPage: React.FC = () => {
       refetchOnWindowFocus: true,
       enabled: !!slug,
       onError: (error: Error) => error?.cause === 404 && navigate('/', { replace: true }),
-      retry: false,
+      refetchOnReconnect: true,
+      retryDelay: 2000,
+      retry: 2,
     }
   )
 

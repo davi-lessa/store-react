@@ -23,8 +23,9 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="produto/:slug?" element={<ProductPage />}></Route>
         <Route path="login" element={<LoginPage />}></Route>
 
+        <Route path="faq" element={<InfoPage slug="faq" />}></Route>
         <Route path="politica-de-privacidade" element={<InfoPage slug="privacy" />}></Route>
-        <Route path="termos" element={<InfoPage slug="terms" />}></Route>
+        <Route path="termos-de-uso" element={<InfoPage slug="terms" />}></Route>
         <Route path="sorteios" element={<InfoPage slug="rattles" />}></Route>
 
         <Route element={<PrivateRoutes />}>

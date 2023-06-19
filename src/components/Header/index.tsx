@@ -99,7 +99,13 @@ const Header: React.FC<HeaderProps> = ({ borderColor }: HeaderProps) => {
 
           <RightSide>
             <AccountBtn onClick={goAccount}>
-              <span className="username">{authSelector.isLogged && user?.displayName ? user.displayName?.split(' ')?.[0] : null}</span>
+              <span className="username">
+                {authSelector.isLogged && user?.displayName
+                  ? user.displayName?.split(' ')?.[0]?.length <= 10
+                    ? user.displayName?.split(' ')?.[0]
+                    : 'Conta'
+                  : ''}
+              </span>
               <AccountIcon size={28}></AccountIcon>
             </AccountBtn>
 

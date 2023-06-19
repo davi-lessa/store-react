@@ -55,7 +55,8 @@ export const Container = styled.div`
       align-self: stretch;
       flex-grow: 1;
       border-radius: 15px;
-      outline: 2px solid #a2b3c5;
+      /* outline: 2px solid #a2b3c5; */
+      outline: 2px solid rgb(208 213 222);
       font-size: 0.93em;
       min-height: 3.5em;
       background: white;
