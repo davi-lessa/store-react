@@ -20,12 +20,17 @@ const AccountNavMenu: React.FC = () => {
     navigate('/' + route, { replace: true })
   }
 
+  useEffect(() => {
+    const routeExists = Object.keys(menuItems).includes(location?.pathname?.slice(1))
+    if (routeExists) setCurrentRoute(location.pathname)
+  }, [location.pathname])
+
   return (
     <MenuList className="page-nav">
       {Object.entries(menuItems).map(([route, label]) => {
         return (
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
-          <li key={`auth-nav-${route}`} onClick={() => navClick(route)} className={currentRoute === '/' + route ? 'active' : ''}>
+          <li key={`acc-nav-${route}`} onClick={() => navClick(route)} className={currentRoute === '/' + route ? 'active' : ''}>
             <span>{label}</span>
           </li>
         )

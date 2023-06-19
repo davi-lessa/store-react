@@ -30,7 +30,7 @@ const Raffles: React.FC = () => {
         throw new Error('Failed on getting orders')
       }
     },
-    { staleTime: 1000 * 60, refetchOnWindowFocus: true, refetchOnMount: true, retry: 2, retryDelay: 3000 }
+    { staleTime: 1000 * 60 * 20, refetchOnWindowFocus: true, refetchOnMount: true, retry: 2, retryDelay: 3000 }
   )
 
   const [rafflesActive, setRafflesActive] = useState(rafflesData?.data?.active ? true : false)

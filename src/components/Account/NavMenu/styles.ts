@@ -82,9 +82,10 @@ export const MenuList = styled.div`
         text-align: center;
 
         &:after {
-          transform: translateX(-50%);
+          display: none;
+          /* transform: translateX(-50%);
           left: 50%;
-          border-bottom-color: lightgrey !important;
+          border-bottom-color: lightgrey !important; */
         }
       }
     }

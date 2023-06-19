@@ -31,6 +31,8 @@ export const Container = styled.div`
 
     p {
       margin-bottom: 0;
+      display: block;
+      width: 100%;
     }
 
     span {

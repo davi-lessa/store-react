@@ -1,10 +1,10 @@
 // Import the functions you need from the SDKs you need
-import { customerRequest, customerRoutes } from 'api'
+
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { generalSettings } from 'settings'
 import { store } from 'store'
 import { actions as authActions } from 'store/reducers/auth'
+import customerAuth from 'utils/customer.auth'
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -24,14 +24,6 @@ const fbApp = initializeApp(firebaseConfig)
 export default fbApp
 const auth = getAuth(fbApp)
 auth.languageCode = 'pt-BR'
-
-function customerAuth(tkn: string) {
-  customerRequest.post(customerRoutes.auth, { idToken: tkn }, { timeout: 15000, withCredentials: true }).then((res) => {
-    if (res.status != 200) return sessionStorage.removeItem('last_ct_auth')
-
-    store.dispatch(authActions.setCartToken(res.data.token))
-  })
-}
 
 onAuthStateChanged(auth, async (user) => {
   try {

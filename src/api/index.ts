@@ -1,5 +1,7 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { generalSettings } from 'settings'
+import { store } from 'store'
+import customerAuth from 'utils/customer.auth'
 
 const apiRequest = axios.create({ baseURL: generalSettings.worker_base_url })
 
@@ -12,6 +14,22 @@ const apiRoutes = {
 }
 
 const customerRequest = axios.create({ baseURL: generalSettings.store_api_base_url, withCredentials: true })
+const customerInterceptor = (res: any) => res
+customerRequest.interceptors.response.use(customerInterceptor, async (error: AxiosError) => {
+  if (error.response?.status === 401) {
+    const tkn = store.getState().auth.token
+
+    const logoff = () => {
+      customerRequest.post(customerRoutes.logoff, {})
+      return window.location.replace('/auth/logoff')
+    }
+
+    if (!tkn) return logoff()
+    const reAuth = await customerAuth(tkn)
+    if (reAuth) return true
+    else window.location.reload()
+  }
+})
 
 const infoRoutes: { [key: string]: string } = {
   terms: 'info/terms',
@@ -20,7 +38,7 @@ const infoRoutes: { [key: string]: string } = {
 }
 
 const customerRoutes = {
-  auth: 'customer/me',
+  auth: 'customer/auth',
   logoff: 'logoff',
   orders: '/api/orders',
   raffles: '/api/raffles',

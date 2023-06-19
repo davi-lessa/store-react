@@ -30,7 +30,7 @@ const Orders: React.FC = () => {
         throw new Error('Failed on getting orders')
       }
     },
-    { staleTime: 1000 * 60, refetchOnWindowFocus: true, refetchOnMount: true, enabled: !orderIdParam, retry: 2, retryDelay: 3000 }
+    { staleTime: 1000 * 120, refetchOnWindowFocus: true, refetchOnMount: true, enabled: !orderIdParam, retry: 2, retryDelay: 3000 }
   )
 
   if (orderIdParam) return <ViewOrder orderId={orderIdParam}></ViewOrder>

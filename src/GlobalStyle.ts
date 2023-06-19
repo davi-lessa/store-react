@@ -9,6 +9,11 @@ export const GlobalStyle = styled.createGlobalStyle`
     --default-padding-h: 7%;
     --default-padding-v: 35px;
 
+    @media screen and (max-width: 922px) {
+      --default-padding-h: 5%;
+      --default-padding-v: 25px;
+    }
+
     @media screen and (max-width: 340px) {
       --default-padding-h: 4%;
       --default-padding-v: 15px;
