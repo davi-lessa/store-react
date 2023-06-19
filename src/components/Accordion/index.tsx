@@ -11,7 +11,7 @@ interface AccordOptions {
   buttonClass?: string
   panelClass?: string
   arrowRight?: boolean
-  dangerousHtml: boolean
+  dangerousHtml?: boolean
 }
 
 const Accordion: React.FC<AccordionProps> = (props: AccordionProps) => {
