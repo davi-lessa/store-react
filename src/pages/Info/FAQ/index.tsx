@@ -12,12 +12,12 @@ const FAQ: React.FC = () => {
     {
       question: 'Quais são os efeitos colaterais mais comuns do uso de minoxidil?',
       answer:
-        '<p>Os efeitos colaterais mais comuns que podem surgir com o uso minoxidil, considerando uma dosagem padrão de até 1ml por aplicação, incluem irritação da pele/couro cabeludo, coceira, vermelhidão e descamação locais. <br><br>É muito comum que se tenha ao menos um desses sintomas ao se utilizar o minoxidil, principalmente quando se está começando o tratamento. <br><br>Em algumas semanas, é também comum que a pele se acostume e se diminua essa irritação característica.</p>',
+        'Considerando uma dosagem padrão de até 1ml por aplicação, pode ocorrer irritação da pele/couro cabeludo, coceira, vermelhidão e descamação no local de aplicação. <br><br>É muito comum que se tenha ao menos um desses sintomas ao se utilizar o minoxidil, principalmente quando se está começando o tratamento. <br><br>Também é comum que ao longo das semanas a pele vá se acostumando e se diminuam esses sintomas característicos.',
     },
     {
       question: 'Quanto tempo leva para ver resultados com o minoxidil?',
       answer:
-        'Os resultados do minoxidil podem variar de pessoa para pessoa. Geralmente, leva de dois a quatro meses de uso regular para ver resultados significativos, como o crescimento de fios capilares mais grossos. É importante ter paciência e manter a frequência de uso correta para obter resultados satisfatórios.',
+        'Os resultados do minoxidil podem variar de pessoa para pessoa. Geralmente, leva de 2 a 4 meses de uso regular para ver resultados significativos, como o crescimento de fios capilares mais grossos. É importante ter paciência e manter a frequência de uso correta para obter resultados satisfatórios.',
     },
     { question: 'Se eu parar de usar minoxidil, o cabelo que cresceu irá cair?', answer: '' },
     { question: 'Quanto tempo devo deixar o minoxidil no couro cabeludo antes de lavar?', answer: '' },
