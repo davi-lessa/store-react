@@ -33,6 +33,10 @@ export const ProductMarginHolder = styled.div`
     margin-left: 25px;
     font-family: 'ML', 'Inter', 'Saira Condensed', 'Segoe UI', sans-serif;
 
+    @media screen and (max-width: 922px) {
+      display: none;
+    }
+
     a {
       &:hover {
         color: black;
