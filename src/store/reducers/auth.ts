@@ -1,4 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 // eslint-disable-next-line import/named
 import { OAuthCredential } from 'firebase/auth'
 

@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { apiRequest, infoRoutes } from 'api'
-import React, { useEffect } from 'react'
+import React, { useEffect, lazy, Suspense } from 'react'
 import { useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router-dom'
 import { Container } from './styles'
-import FAQ from './FAQ'
+import { motion } from 'framer-motion'
+import Terms from './Terms'
+import Privacy from './Privacy'
+import About from './About'
+const FAQ = lazy(() => import('./FAQ'))
 
 // import { Container } from './styles';
 
@@ -28,15 +32,18 @@ interface ExtendedData {
 }
 type Extended = InfoApiResponse['data'] & ExtendedData
 
-const renderSlugs: { [key: string]: Partial<Extended> } = {
+const localRenderSlugs: { [key: string]: Partial<Extended> } = {
   faq: { component: FAQ, title: 'FAQ' },
+  terms: { component: Terms, title: 'Termos de uso' },
+  privacy: { component: Privacy, title: 'Política de Privacidade' },
+  about: { component: About, title: 'Sobre nós' },
 }
 
 const InfoPage: React.FC<Props> = (props: Props) => {
   const params = useParams()
   const infoSlug = props?.slug || params.slug || null
   const routeExists = !!infoRoutes?.[infoSlug as string]
-  const localRender = renderSlugs?.[infoSlug as string]
+  const localRender = localRenderSlugs?.[infoSlug as string]
 
   const { data: infoData, isFetched } = useQuery<InfoApiResponse>(
     'info-' + infoSlug,
@@ -66,8 +73,17 @@ const InfoPage: React.FC<Props> = (props: Props) => {
         <>
           <h2>{localRender.title}</h2>
           <br />
-          {DynamicComponent ? <DynamicComponent></DynamicComponent> : <></>}
-          <p>Veja também</p>
+          {DynamicComponent ? (
+            <Suspense fallback={<p>Carregando...</p>}>
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                <DynamicComponent></DynamicComponent>
+              </motion.div>
+            </Suspense>
+          ) : (
+            <></>
+          )}
+          {localRender?.seeAlso ? <p>Veja também</p> : ''}
+
           <ul></ul>
         </>
       )}

@@ -130,7 +130,7 @@ const ProductPage: React.FC = () => {
     const skuImage = sku?.images?.data?.[0]?.medium?.url
     skuImage && imagePreviewRef.current && (imagePreviewRef.current.src = skuImage)
     const imagePreviewEl: HTMLImageElement | null | undefined = imagePreviewRef.current?.closest('.image-preview')
-    imagePreviewEl && imagePreviewEl.classList.add('permanent')
+    // imagePreviewEl && imagePreviewEl.classList.add('permanent')
   }, [selectedVariation])
 
   function setDefaultVariaton() {
@@ -220,25 +220,37 @@ const ProductPage: React.FC = () => {
       <Specs>
         <hr style={{ marginTop: '25px' }} />
 
-        <h2 className="mb15">Especificações</h2>
-        <div className="specs-content">
-          {specs.map(([left, right], index) => (
-            <React.Fragment key={'spec-line-' + index}>
-              <span className={`pos-${index % 2 === 0 ? 'impar-esq' : 'par-esq'}`}>{left}</span>
-              <span className={`pos-${index % 2 === 0 ? 'impar-dir' : 'par-dir'}`}>{right}</span>
-            </React.Fragment>
-          ))}
-        </div>
+        {specs.length ? (
+          <>
+            <h2 className="mb15">Especificações</h2>
+            <div className="specs-content">
+              {specs.map(([left, right], index) => (
+                <React.Fragment key={'spec-line-' + index}>
+                  <span className={`pos-${index % 2 === 0 ? 'impar-esq' : 'par-esq'}`}>{left.replace(/<.*span>/g, '').trim()}</span>
+                  <span className={`pos-${index % 2 === 0 ? 'impar-dir' : 'par-dir'}`}>{right.replace(/<.*span>/g, '').trim()}</span>
+                </React.Fragment>
+              ))}
+            </div>
+          </>
+        ) : (
+          ''
+        )}
 
-        <h2 style={{ marginTop: '30px' }}>Medidas</h2>
-        <div className="specs-content">
-          {measures.map(([left, right], index) => (
-            <React.Fragment key={'spec-line-' + index}>
-              <span className={`pos-${index % 2 === 0 ? 'impar-esq' : 'par-esq'}`}>{left}</span>
-              <span className={`pos-${index % 2 === 0 ? 'impar-dir' : 'par-dir'}`}>{right}</span>
-            </React.Fragment>
-          ))}
-        </div>
+        {measures.length ? (
+          <>
+            <h2 style={{ marginTop: '30px' }}>Medidas</h2>
+            <div className="specs-content">
+              {measures.map(([left, right], index) => (
+                <React.Fragment key={'spec-line-' + index}>
+                  <span className={`pos-${index % 2 === 0 ? 'impar-esq' : 'par-esq'}`}>{left.replace(/<.*span>/g, '').trim()}</span>
+                  <span className={`pos-${index % 2 === 0 ? 'impar-dir' : 'par-dir'}`}>{right.replace(/<.*span>/g, '').trim()}</span>
+                </React.Fragment>
+              ))}
+            </div>
+          </>
+        ) : (
+          ''
+        )}
       </Specs>
     )
   }

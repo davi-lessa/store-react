@@ -56,7 +56,7 @@ const Accordion: React.FC<AccordionProps> = (props: AccordionProps) => {
           if (options.dangerousHtml === true) extraArguments.dangerouslySetInnerHTML = { __html: panel }
 
           return (
-            <div key={'accord-' + Math.random()}>
+            <div key={'accord-' + Math.random()} className="accordion-wrapper">
               <button
                 className={`dlv_accord ${options.arrowRight ? 'arrow-right' : ''} ${options?.buttonClass ? options?.buttonClass : ''}`}
                 onClick={accordionClickHandler}

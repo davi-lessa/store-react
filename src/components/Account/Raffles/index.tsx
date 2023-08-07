@@ -18,6 +18,8 @@ interface OlderRafflesAPIResponse {
 }
 
 const Raffles: React.FC = () => {
+  const isUnavailable = true
+
   const {
     data: raffleUserData,
     isFetching: raffleUserIsFetching,
@@ -35,7 +37,7 @@ const Raffles: React.FC = () => {
         throw new Error('Failed on getting orders')
       }
     },
-    { staleTime: 1000 * 60 * 10, refetchOnWindowFocus: true, refetchOnMount: true, retry: 2, retryDelay: 3000 }
+    { staleTime: 1000 * 60 * 10, refetchOnWindowFocus: true, refetchOnMount: true, retry: 2, retryDelay: 3000, enabled: !isUnavailable }
   )
 
   const {
@@ -92,6 +94,16 @@ const Raffles: React.FC = () => {
     setIsUpdating(false)
     return false
   }
+
+  if (isUnavailable)
+    return (
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }} exit={{ opacity: 0 }} key={111}>
+        <Container className={rafflesActive ? 'active' : ''}>
+          <h2>Sorteios</h2>
+          <p>Em breve!</p>
+        </Container>
+      </motion.div>
+    )
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }} exit={{ opacity: 0 }} key={111}>

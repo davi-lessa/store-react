@@ -3,11 +3,13 @@ import React, { useEffect, useRef } from 'react'
 import { Container } from './styles'
 import MinoxImg from 'assets/img/minox.png'
 import MinoxBg from 'assets/img/banner_bg.jpg'
+import { useNavigate } from 'react-router-dom'
 
 const AnimatedBanner: React.FC = () => {
   const composition = useRef<HTMLDivElement>(null)
   const back = useRef<HTMLDivElement>(null)
   let loaded = 0
+  const navigate = useNavigate()
 
   function applyAnim() {
     loaded++
@@ -35,7 +37,7 @@ const AnimatedBanner: React.FC = () => {
         </div>
       </div>
 
-      <button>Comece o seu Tratamento</button>
+      <button onClick={() => navigate('/produto/minoxidil-kirkland-5')}>Ver mais detalhes</button>
     </Container>
   )
 }

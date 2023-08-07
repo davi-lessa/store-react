@@ -634,15 +634,31 @@ export const Description = styled.div`
   grid-area: description;
 
   .html-desc {
+    @media screen and (min-width: 768px) {
+      padding: 25px 20% 25px 25px;
+    }
+    /* text-align: justify; */
+
     ul {
       list-style-position: inside !important;
     }
     .html-specs {
       padding: 25px 35px 35px 35px;
     }
+    font-size: 16px;
 
     * {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+      /* font-weight: 500; */
+      letter-spacing: 0.02em;
+      /* color: #333; */
+      line-height: 1.5em;
+    }
+
+    h2 {
+      word-spacing: -0.025em;
+      letter-spacing: 0.01em;
+      line-height: 1.25em;
     }
 
     img {

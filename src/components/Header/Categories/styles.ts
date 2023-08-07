@@ -14,6 +14,8 @@ export const CategoriesList = styled.ul`
   padding: 1em 7%;
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
   overflow: visible;
+  max-width: var(--desktop-max-width);
+  margin: 0 auto;
 
   a {
     text-decoration: none;

@@ -10,6 +10,7 @@ const apiRoutes = {
   featuredProductsByCat: (cats: string) => `product/featured?cats=${cats}`,
   shippingCalc: 'freight',
   menu: 'menu',
+  subscribe: 'lead',
   cartCheck: 'cart-check',
 }
 
@@ -36,6 +37,7 @@ const infoRoutes: { [key: string]: string } = {
   terms: 'info/terms',
   privacy: 'info/privacy',
   faq: 'info/faq',
+  about: 'info/about',
 }
 
 const customerRoutes = {

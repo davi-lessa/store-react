@@ -6,6 +6,8 @@ export const Container = styled.div`
   background-color: white;
   overflow: hidden;
   user-select: none;
+  max-width: var(--desktop-max-width);
+  margin: 0 auto;
   .us {
     user-select: text;
   }
@@ -37,6 +39,7 @@ export const FooterList = styled.ul`
     max-width: 100%;
     overflow: hidden;
     position: relative;
+    padding: 1px;
 
     p {
       display: flex;
@@ -48,14 +51,30 @@ export const FooterList = styled.ul`
       svg {
         flex-shrink: 0;
       }
+
+      &.subscribe-congrats {
+        padding: 15px;
+        background: #fafbfc;
+        border: 1px solid #ccc;
+      }
     }
 
     .input-holder {
+      padding: 1px;
       display: grid;
       width: min-content;
       grid-template-columns: 7fr 3fr;
       width: 100%;
       margin-top: 16px;
+      border-radius: 6px;
+
+      transition: 0.25s ease;
+      &.invalid {
+        outline: 1px solid red;
+      }
+      &.valid {
+        outline: 1px solid forestgreen;
+      }
 
       input {
         padding: 12px 15px;
