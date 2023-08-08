@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { auth } from 'services/firebaseConfig'
 import { signInWithPopup, GoogleAuthProvider, sendSignInLinkToEmail } from 'firebase/auth'
 import { actions as authActions } from 'store/reducers/auth'
@@ -14,6 +14,9 @@ const provider = new GoogleAuthProvider()
 const LoginPage: React.FC = () => {
   const dispatch = useDispatch()
   const isLogged = useSelector((current: RootState) => current.auth.isLogged)
+  const [isWaitingEmail, setIsWaitingEmail] = useState(false)
+
+  const mailButtonRef = useRef<HTMLButtonElement>(null)
 
   const [userMail, setMail] = useState(localStorage.getItem('signMail') || null)
 
@@ -38,11 +41,13 @@ const LoginPage: React.FC = () => {
 
   function signInWithEmail() {
     if (!userMail) return
+    setIsWaitingEmail(true)
     sendSignInLinkToEmail(auth, userMail, actionCodeSettings)
       .then(() => {
         window.localStorage.setItem('disposableMail', userMail)
       })
       .catch((error) => {
+        setIsWaitingEmail(false)
         // const errorCode = error.code
         // const errorMessage = error.message
       })
@@ -65,12 +70,20 @@ const LoginPage: React.FC = () => {
               id="mailProvider"
               type="text"
               placeholder="seu@email.com"
+              style={{ textAlign: 'center' }}
               onChange={(e) => setMail(e.currentTarget.value)}
               defaultValue={userMail || ''}
+              disabled={isWaitingEmail}
             />
           </InputWrapper>
-          <LoginButton onClick={signInWithEmail} className="facebook">
-            Receber acesso via e-mail
+
+          <LoginButton
+            onClick={signInWithEmail}
+            className="facebook"
+            disabled={isWaitingEmail}
+            style={isWaitingEmail ? { background: 'lightgray', color: '#333', cursor: 'default' } : {}}
+          >
+            {isWaitingEmail ? 'Aguardando acesso via e-mail...' : 'Receber acesso via e-mail'}
           </LoginButton>
 
           <p className="mt-20 mb-20" style={{ textAlign: 'center' }}>

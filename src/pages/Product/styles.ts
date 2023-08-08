@@ -635,6 +635,7 @@ export const Description = styled.div`
 
   padding: 50px 25px;
 
+  .html-desc {
     @media screen and (min-width: 768px) {
       padding: 25px 20% 25px 25px;
     }
