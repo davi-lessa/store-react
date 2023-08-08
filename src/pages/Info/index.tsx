@@ -4,7 +4,7 @@ import React, { useEffect, lazy, Suspense } from 'react'
 import { useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router-dom'
 import { Container } from './styles'
-import { motion } from 'framer-motion'
+import { animate, motion } from 'framer-motion'
 import Terms from './Terms'
 import Privacy from './Privacy'
 import About from './About'
@@ -68,35 +68,37 @@ const InfoPage: React.FC<Props> = (props: Props) => {
   const DynamicComponent = localRender ? localRender.component : null
 
   return (
-    <Container>
-      {localRender && (
-        <>
-          <h2>{localRender.title}</h2>
-          <br />
-          {DynamicComponent ? (
-            <Suspense fallback={<p>Carregando...</p>}>
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                <DynamicComponent></DynamicComponent>
-              </motion.div>
-            </Suspense>
-          ) : (
-            <></>
-          )}
-          {localRender?.seeAlso ? <p>Veja também</p> : ''}
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.5 } }}>
+      <Container>
+        {localRender && (
+          <>
+            <h2>{localRender.title}</h2>
+            <br />
+            {DynamicComponent ? (
+              <Suspense fallback={<p>Carregando...</p>}>
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                  <DynamicComponent></DynamicComponent>
+                </motion.div>
+              </Suspense>
+            ) : (
+              <></>
+            )}
+            {localRender?.seeAlso ? <p>Veja também</p> : ''}
 
-          <ul></ul>
-        </>
-      )}
+            <ul></ul>
+          </>
+        )}
 
-      {infoData && isFetched && (
-        <>
-          <h2>{infoData?.data.title}</h2>
-          <div dangerouslySetInnerHTML={{ __html: infoData?.data.text }}></div>
-          <p>Veja também</p>
-          <ul></ul>
-        </>
-      )}
-    </Container>
+        {infoData && isFetched && (
+          <>
+            <h2>{infoData?.data.title}</h2>
+            <div dangerouslySetInnerHTML={{ __html: infoData?.data.text }}></div>
+            <p>Veja também</p>
+            <ul></ul>
+          </>
+        )}
+      </Container>
+    </motion.div>
   )
 }
 

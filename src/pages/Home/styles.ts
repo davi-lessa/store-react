@@ -396,6 +396,7 @@ export const SliderContainer = styled.div`
   padding: 0 10%;
   margin: 0 auto;
   overflow: hidden;
+  max-width: 100vw;
 
   .slide {
     width: auto;
