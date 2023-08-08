@@ -296,7 +296,7 @@ export const Selling = styled.div`
       position: relative !important;
       top: unset;
       border: none !important;
-      padding: 5px 25px;
+      padding: 5px 20px 25px 20px;
 
       border-bottom: 1px solid #ddd !important;
       border-radius: 0 !important;
@@ -633,7 +633,8 @@ export const Selling = styled.div`
 export const Description = styled.div`
   grid-area: description;
 
-  .html-desc {
+  padding: 50px 25px;
+
     @media screen and (min-width: 768px) {
       padding: 25px 20% 25px 25px;
     }
