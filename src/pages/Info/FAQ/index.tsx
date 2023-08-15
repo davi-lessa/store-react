@@ -75,7 +75,7 @@ const FAQ: React.FC = () => {
 
   return (
     <Container>
-      <h4>Em geral, o tratamento com minoxidil é simples, mas é comum que surjam alguams dúvidas ao utilizá-o. Veja algumas delas:</h4>
+      <h4>Encontre respostas para possíveis dúvidas que você possa ter:</h4>
       <br />
       <Accordion
         data={faqList.map(
